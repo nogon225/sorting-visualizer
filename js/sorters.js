@@ -79,6 +79,7 @@ export function mergeSort(a) {
     s.push({ type:'div', lo, mid, hi, depth: depth || 0 });
     ms(lo, mid, (depth||0)+1); ms(mid, hi, (depth||0)+1);
     merge(lo, mid, hi);
+    s.push({ type:'mrk', lo, mid, hi, level: Math.round(Math.log2(hi - lo)) });
   }
 
   ms(0, n, 0);

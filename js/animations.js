@@ -53,6 +53,7 @@ function clearMergeRange(cont) {
   const bars = cont.children;
   for (let i = 0; i < bars.length; i++) {
     bars[i].style.boxShadow = 'none';
+    bars[i].style.borderTop = 'none';
   }
 }
 
@@ -181,6 +182,19 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
         if (delay > 10) {
           render(dom.cont, workArray, {});
           await new Promise(r => setTimeout(r, Math.min(600, delay)));
+        }
+      }
+    } else if (step.type === 'mrk') {
+      // Marqueur de fin de fusion : le segment [lo..hi[ est merge
+      if (step.lo != null && step.hi != null) {
+        const bars = dom.cont.children;
+        for (let i = step.lo; i < step.hi && i < bars.length; i++) {
+          bars[i].style.borderTop = '2px solid rgba(34, 197, 94, 0.6)';
+        }
+        dom.typeEl.textContent = '✅ [' + step.lo + '..' + step.hi + '[ trie par fusion';
+        if (delay > 10) {
+          render(dom.cont, workArray, {});
+          await new Promise(r => setTimeout(r, Math.min(400, delay)));
         }
       }
     } else if (step.type === 'swp') {
