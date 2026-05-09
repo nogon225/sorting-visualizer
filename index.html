@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Algorithmes de Tri — Visualisation</title>
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=4">
 </head>
 <body>
 
@@ -12,19 +12,25 @@
 
 
 <div class="controls">
-  <label>Éléments</label>
-  <input type="range" id="sS" min="10" max="200" value="60">
-  <span class="val" id="sD">60</span>
-
-  <label>Vitesse</label>
-  <input type="range" id="speed" min="1" max="10" value="6">
-  <span class="val" id="speedV">Normal</span>
-
-  <button class="btn-rnd" id="bRnd">🎲 Mélanger</button>
-  <button class="btn-go"  id="bGo">▶ Trier</button>
-  <button class="btn-pause" id="bPa" disabled>⏸ Pause</button>
-  <button class="btn-rs"  id="bRs">↺ Reset</button>
-  <button class="btn-help" id="bHelp">❓</button>
+  <div class="controls-row controls-sliders">
+    <div class="ctrl-group">
+      <label for="sS">Éléments</label>
+      <input type="range" id="sS" min="10" max="200" value="60">
+      <span class="val" id="sD">60</span>
+    </div>
+    <div class="ctrl-group">
+      <label for="speed">Vitesse</label>
+      <input type="range" id="speed" min="1" max="10" value="6">
+      <span class="val" id="speedV">Normal</span>
+    </div>
+    <button class="btn-rnd" id="bRnd">🎲 Mélanger</button>
+  </div>
+  <div class="controls-row controls-actions">
+    <button class="btn-go"  id="bGo">▶ Trier</button>
+    <button class="btn-pause" id="bPa" disabled>⏸ Pause</button>
+    <button class="btn-rs"  id="bRs">↺ Reset</button>
+    <button class="btn-help" id="bHelp">❓</button>
+  </div>
 </div>
 
 <div class="legend">
@@ -90,6 +96,6 @@
   </div>
 </div>
 
-<script type="module" src="js/main.js?v=4"></script>
+<script type="module" src="js/main.js?v=5"></script>
 </body>
 </html>
