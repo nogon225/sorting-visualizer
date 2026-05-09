@@ -98,14 +98,15 @@
   }
   .ctrl-group #speedV { width:auto; min-width:50px; }
 
-  /* Mélanger button: full width below sliders */
-  .controls-sliders .btn-rnd {
-    min-height:44px;
-    padding:8px 16px;
-    font-size:.75rem;
+  /* Trier button: full width below sliders, bien visible */
+  .controls-sliders .btn-go {
+    min-height:48px;
+    padding:10px 16px;
+    font-size:.95rem;
     width:100%;
     justify-content:center;
-    border-radius:8px;
+    border-radius:10px;
+    margin-top:4px;
   }
 
   /* Action buttons row: equal width, fill the screen */
@@ -121,10 +122,10 @@
     justify-content:center;
     border-radius:8px;
   }
-  .btn-go { font-size:.8rem; padding:6px 12px; }
-  .btn-pause { font-size:.7rem; }
-  .btn-rs { font-size:.7rem; }
-  .btn-help { font-size:.85rem; padding:6px 8px; background:#27272a; color:#a1a1aa; }
+  .controls-actions .btn-rnd { font-size:.65rem; padding:4px 8px; }
+  .controls-actions .btn-pause { font-size:.65rem; }
+  .controls-actions .btn-rs { font-size:.65rem; }
+  .controls-actions .btn-help { font-size:.85rem; padding:6px 8px; background:#27272a; color:#a1a1aa; }
 
   /* Legend compact */
   .legend { gap:3px; font-size:.5rem; padding:3px 8px; }
@@ -176,7 +177,7 @@
   .ctrl-group input[type=range] { min-width:60px; }
   .ctrl-group input[type=range]::-webkit-slider-thumb { width:20px; height:20px; }
   .controls-actions button { font-size:.6rem; padding:4px 6px; }
-  .btn-go { font-size:.7rem; }
+  .controls-sliders .btn-go { min-height:44px; font-size:.8rem; }
   .hdr .nm { font-size:.5rem; }
   .track { padding:0 3px; }
 }

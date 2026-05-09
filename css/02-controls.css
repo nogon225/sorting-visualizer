@@ -11,6 +11,7 @@
   gap:8px; flex-wrap:wrap;
 }
 .controls-sliders { margin-bottom:4px; }
+.controls-sliders .btn-go { padding:7px 20px; }
 .ctrl-group {
   display:flex; align-items:center; gap:6px;
 }
