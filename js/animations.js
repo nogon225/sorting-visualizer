@@ -91,15 +91,23 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
       dom.cmpEl.textContent = comparisons;
       classes[step.i] = 1; classes[step.j] = 1;
     } else if (step.type === 'swp') {
-      if (step.i != null && step.j != null && delay > 10) {
-        classes[step.i] = 2; classes[step.j] = 2;
-        render(dom.cont, workArray, classes);
-        dom.typeEl.textContent = __('typeLabels.swap');
-        dom.timeEl.textContent = Math.round(performance.now() - t0);
-        const dur = Math.min(600, Math.max(80, delay * 1.5));
-        await animateSwap(dom.cont, step.i, step.j, dur);
-      }
-      if (step.i != null && step.j == null && step.v !== undefined && delay > 10) {
+      if (step.i != null && step.j != null) {
+        // Swap entre deux elements
+        if (delay > 10) {
+          classes[step.i] = 2; classes[step.j] = 2;
+          render(dom.cont, workArray, classes);
+          dom.typeEl.textContent = __('typeLabels.swap');
+          dom.timeEl.textContent = Math.round(performance.now() - t0);
+          const dur = Math.min(600, Math.max(80, delay * 1.5));
+          await animateSwap(dom.cont, step.i, step.j, dur);
+          // Met a jour les valeurs ET les hauteurs immediatement apres l'animation
+          [workArray[step.i], workArray[step.j]] = [workArray[step.j], workArray[step.i]];
+          render(dom.cont, workArray, classes);
+        } else {
+          // Vitesse rapide : pas d'animation, juste les valeurs
+          [workArray[step.i], workArray[step.j]] = [workArray[step.j], workArray[step.i]];
+        }
+      } else if (step.i != null && step.v !== undefined && delay > 10) {
         if (step.from != null && step.from !== step.i) {
           classes[step.i] = 2; classes[step.from] = 1;
           render(dom.cont, workArray, classes);
@@ -107,6 +115,8 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
           dom.timeEl.textContent = Math.round(performance.now() - t0);
           const dur = Math.min(600, Math.max(80, delay * 1.5));
           await animateSwap(dom.cont, step.from, step.i, dur);
+          workArray[step.i] = step.v;
+          render(dom.cont, workArray, classes);
         } else {
           classes[step.i] = 2;
           render(dom.cont, workArray, classes);
@@ -119,12 +129,13 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
             await new Promise(r => setTimeout(r, Math.min(300, delay)));
             bar.style.transform = ''; bar.style.transition = 'none';
           }
+          workArray[step.i] = step.v;
+          render(dom.cont, workArray, classes);
         }
-      }
-      if (step.i != null && step.j != null)
-        [workArray[step.i], workArray[step.j]] = [workArray[step.j], workArray[step.i]];
-      else if (step.i != null && step.v !== undefined)
+      } else if (step.i != null && step.v !== undefined) {
+        // Vitesse rapide : ecriture sans animation
         workArray[step.i] = step.v;
+      }
       swaps++;
       dom.swpEl.textContent = swaps;
       classes[step.i] = 2;
