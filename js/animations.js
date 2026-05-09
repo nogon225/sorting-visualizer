@@ -109,13 +109,14 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
         }
       } else if (step.i != null && step.v !== undefined && delay > 10) {
         if (step.from != null && step.from !== step.i) {
-          workArray[step.i] = step.v;
           classes[step.i] = 2; classes[step.from] = 1;
           render(dom.cont, workArray, classes);
           dom.typeEl.textContent = __('typeLabels.move');
           dom.timeEl.textContent = Math.round(performance.now() - t0);
           const dur = Math.min(600, Math.max(80, delay * 1.5));
           await animateSwap(dom.cont, step.from, step.i, dur);
+          workArray[step.i] = step.v;
+          render(dom.cont, workArray, classes);
         } else {
           classes[step.i] = 2;
           render(dom.cont, workArray, classes);
