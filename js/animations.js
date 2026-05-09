@@ -57,12 +57,8 @@ function clearMergeRange(cont) {
 }
 
 function applyDivRange(cont, lo, mid, hi) {
-  // Coloriage de la phase DIVISION : seule la moitie gauche est marquee
+  // Coloriage de la phase DIVISION : seule la moitie gauche est marquee en violet
   const bars = cont.children;
-  for (let i = lo; i < hi && i < bars.length; i++) {
-    bars[i].style.boxShadow = 'none';
-  }
-  // Moitie gauche = fond violet
   for (let i = lo; i < mid && i < bars.length; i++) {
     bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(168, 85, 247, 0.35)';
   }
@@ -194,6 +190,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
     } else if (step.type === 'div') {
       // Division recursive : montre le decoupage du tableau
       if (step.lo != null && step.hi != null) {
+        clearMergeRange(dom.cont);
         applyDivRange(dom.cont, step.lo, step.mid, step.hi);
         dom._mergeLevel = -1;
         dom.typeEl.textContent = '🔪 Division [' + step.lo + '..' + step.hi + '[ en [' + step.lo + '..' + step.mid + '[ [' + step.mid + '..' + step.hi + '[';
