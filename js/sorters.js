@@ -73,16 +73,39 @@ export function mergeSort(a) {
     while (j < r.length) { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R', lo, mid, hi }); j++; k++; }
   }
 
-  function ms(lo, hi, depth) {
-    if (hi - lo <= 1) return;
-    const mid = Math.floor((lo+hi)/2);
-    s.push({ type:'div', lo, mid, hi, depth: depth || 0 });
-    ms(lo, mid, (depth||0)+1); ms(mid, hi, (depth||0)+1);
-    merge(lo, mid, hi);
-    s.push({ type:'mrk', lo, mid, hi, level: Math.round(Math.log2(hi - lo)) });
+  // Iteratif bottom-up : double la taille a chaque passe
+  // Les deux moities sont fusionnees simultanement dans la meme boucle
+  for (let size = 1; size < n; size *= 2) {
+    const pass = Math.round(Math.log2(size));
+
+    // 1. Divisions pour cette passe
+    for (let lo = 0; lo < n; lo += 2 * size) {
+      const mid = Math.min(lo + size, n);
+      const hi = Math.min(lo + 2 * size, n);
+      if (hi > mid) {
+        s.push({ type:'div', lo, mid, hi, depth: pass });
+      }
+    }
+
+    // 2. Fusions pour cette passe (tous les couples en meme temps)
+    for (let lo = 0; lo < n; lo += 2 * size) {
+      const mid = Math.min(lo + size, n);
+      const hi = Math.min(lo + 2 * size, n);
+      if (hi > mid) {
+        merge(lo, mid, hi);
+      }
+    }
+
+    // 3. Marqueurs de fin de passe
+    for (let lo = 0; lo < n; lo += 2 * size) {
+      const mid = Math.min(lo + size, n);
+      const hi = Math.min(lo + 2 * size, n);
+      if (hi > mid) {
+        s.push({ type:'mrk', lo, mid, hi, level: pass + 1 });
+      }
+    }
   }
 
-  ms(0, n, 0);
   for (let i = 0; i < n; i++) s.push({ type:'srt', i });
   return s;
 }
