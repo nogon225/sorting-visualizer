@@ -56,13 +56,27 @@ function clearMergeRange(cont) {
   }
 }
 
-function applyMergeRange(cont, lo, mid, hi) {
+function applyDivRange(cont, lo, mid, hi) {
+  // Coloriage de la phase DIVISION : seule la moitie gauche est marquee
   const bars = cont.children;
-  // Nettoie UNIQUEMENT les barres du range courant, les autres gardent leurs couleurs
   for (let i = lo; i < hi && i < bars.length; i++) {
     bars[i].style.boxShadow = 'none';
   }
-  // Applique les nouvelles couleurs
+  // Moitie gauche = fond violet
+  for (let i = lo; i < mid && i < bars.length; i++) {
+    bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(168, 85, 247, 0.35)';
+  }
+  if (mid > lo && mid-1 < bars.length) {
+    bars[mid-1].style.boxShadow = 'inset 0 0 0 1000px rgba(168, 85, 247, 0.35), 2px 0 0 0 rgba(255,255,255,0.4)';
+  }
+}
+
+function applyMergeRange(cont, lo, mid, hi) {
+  // Coloriage de la phase FUSION : gauche bleu, droite rouge
+  const bars = cont.children;
+  for (let i = lo; i < hi && i < bars.length; i++) {
+    bars[i].style.boxShadow = 'none';
+  }
   for (let i = lo; i < hi && i < bars.length; i++) {
     if (i < mid) {
       bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(59, 130, 246, 0.35)';
@@ -70,7 +84,6 @@ function applyMergeRange(cont, lo, mid, hi) {
       bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(239, 68, 68, 0.35)';
     }
   }
-  // Separeur visuel sur le dernier element de la moitie gauche
   if (mid > lo && mid <= hi && mid-1 < bars.length) {
     bars[mid-1].style.boxShadow = 'inset 0 0 0 1000px rgba(59, 130, 246, 0.35), 2px 0 0 0 rgba(255,255,255,0.4)';
   }
@@ -181,7 +194,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
     } else if (step.type === 'div') {
       // Division recursive : montre le decoupage du tableau
       if (step.lo != null && step.hi != null) {
-        applyMergeRange(dom.cont, step.lo, step.mid, step.hi);
+        applyDivRange(dom.cont, step.lo, step.mid, step.hi);
         dom._mergeLevel = -1;
         dom.typeEl.textContent = '🔪 Division [' + step.lo + '..' + step.hi + '[ en [' + step.lo + '..' + step.mid + '[ [' + step.mid + '..' + step.hi + '[';
         if (delay > 10) {
