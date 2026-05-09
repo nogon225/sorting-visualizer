@@ -69,41 +69,45 @@ function applyMergeRange(cont, lo, mid, hi) {
   }
 }
 
-// ─── Animation de deplacement unidirectionnel (Merge Sort) ─────
-// La valeur gagnante glisse de sa position source vers la position de fusion.
-// La destination pulse pour montrer qu'elle recoit la nouvelle valeur.
+// ─── Animation de copie (Merge Sort) ──────────────────────────
+// Pas de deplacement. Le gagnant recoit un halo vert, la destination bounce,
+// puis la hauteur de la destination est mise a jour.
 function animateMerge(cont, fromIdx, toIdx, duration, side) {
   return new Promise(resolve => {
     const bars = cont.children;
     if (!bars[fromIdx] || !bars[toIdx]) { resolve(); return; }
 
-    const rectFrom = bars[fromIdx].getBoundingClientRect();
-    const rectTo = bars[toIdx].getBoundingClientRect();
-    const deltaX = rectTo.left - rectFrom.left;
-    const deltaY = rectTo.top - rectFrom.top;
+    // Etape 1: le gagnant brille en vert
+    bars[fromIdx].style.transition = 'box-shadow ' + 80 + 'ms ease-out';
+    bars[fromIdx].style.boxShadow = '0 0 18px 6px rgba(34, 197, 94, 0.8)';
 
-    // Couleur selon la sous-partie : bleu pour gauche, rouge pour droite
-    const glowColor = side === 'R' ? 'rgba(239, 68, 68, 0.7)' : 'rgba(59, 130, 246, 0.7)';
-
-    // La barre source glisse vers la destination
-    bars[fromIdx].style.transition = 'transform ' + duration + 'ms cubic-bezier(0.34, 1.56, 0.64, 1)';
-    bars[fromIdx].style.transform = 'translate(' + deltaX + 'px,' + deltaY + 'px)';
-    bars[fromIdx].style.zIndex = '10';
-    bars[fromIdx].style.boxShadow = '0 0 15px 5px ' + glowColor;
-
-    // La destination pulse
-    bars[toIdx].style.transition = 'transform ' + (duration * 0.35) + 'ms ease-out';
-    bars[toIdx].style.transform = 'scaleY(0.6)';
-
+    // Etape 2: la destination se contracte
     setTimeout(() => {
-      bars[fromIdx].style.transition = 'none';
-      bars[fromIdx].style.transform = '';
-      bars[fromIdx].style.zIndex = '';
-      bars[fromIdx].style.boxShadow = 'none';
-      bars[toIdx].style.transition = 'none';
-      bars[toIdx].style.transform = '';
-      resolve();
-    }, duration + 20);
+      bars[toIdx].style.transition = 'transform ' + (duration * 0.3) + 'ms ease-out';
+      bars[toIdx].style.transform = 'scaleY(0.6)';
+
+      // Etape 3: le gagnant perd son halo, la destination rebondit avec la nouvelle valeur
+      setTimeout(() => {
+        bars[fromIdx].style.transition = 'box-shadow 150ms ease-out';
+        bars[fromIdx].style.boxShadow = 'none';
+
+        bars[toIdx].style.transition = 'transform ' + (duration * 0.25) + 'ms ease-out';
+        bars[toIdx].style.transform = 'scaleY(1.15)';
+
+        setTimeout(() => {
+          bars[toIdx].style.transition = 'transform ' + (duration * 0.2) + 'ms ease-out';
+          bars[toIdx].style.transform = '';
+
+          setTimeout(() => {
+            bars[fromIdx].style.transition = 'none';
+            bars[fromIdx].style.boxShadow = 'none';
+            bars[toIdx].style.transition = 'none';
+            bars[toIdx].style.transform = '';
+            resolve();
+          }, duration * 0.2 + 10);
+        }, duration * 0.25 + 10);
+      }, duration * 0.3 + 10);
+    }, 100);
   });
 }
 
