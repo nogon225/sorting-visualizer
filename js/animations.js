@@ -58,19 +58,21 @@ function clearMergeRange(cont) {
 
 function applyMergeRange(cont, lo, mid, hi) {
   const bars = cont.children;
+  // Nettoie UNIQUEMENT les barres du range courant, les autres gardent leurs couleurs
+  for (let i = lo; i < hi && i < bars.length; i++) {
+    bars[i].style.boxShadow = 'none';
+  }
+  // Applique les nouvelles couleurs
   for (let i = lo; i < hi && i < bars.length; i++) {
     if (i < mid) {
-      // Toute la moitie gauche se teinte en bleu en meme temps
       bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(59, 130, 246, 0.35)';
     } else if (i < hi) {
-      // Toute la moitie droite se teinte en rouge en meme temps
       bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(239, 68, 68, 0.35)';
     }
   }
-  
-  // Separeur visuel: barre au milieu (dernier element de la moitie gauche)
-  if (mid > lo && mid <= hi && mid < bars.length) {
-    bars[mid - 1].style.boxShadow += ', 2px 0 0 0 rgba(255,255,255,0.4)';
+  // Separeur visuel sur le dernier element de la moitie gauche
+  if (mid > lo && mid <= hi && mid-1 < bars.length) {
+    bars[mid-1].style.boxShadow = 'inset 0 0 0 1000px rgba(59, 130, 246, 0.35), 2px 0 0 0 rgba(255,255,255,0.4)';
   }
 }
 
@@ -170,7 +172,6 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
     if (pauseP) await pauseP;
     if (sig.aborted) return { cmp: comparisons, swp: swaps, elapsed: 0, aborted: true };
     for (const key of Object.keys(classes)) delete classes[key];
-    clearMergeRange(dom.cont);
     const delay = getDelayMs();
 
     if (step.type === 'cmp') {
