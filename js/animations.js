@@ -55,6 +55,7 @@ function clearMergeRange(cont) {
     bars[i].style.boxShadow = 'none';
     bars[i].style.borderTop = 'none';
     bars[i].style.borderBottom = 'none';
+    bars[i].style.borderRight = 'none';
   }
 }
 
@@ -62,10 +63,12 @@ function applyMergeRange(cont, lo, mid, hi) {
   const bars = cont.children;
   for (let i = lo; i < hi && i < bars.length; i++) {
     if (i < mid) {
-      // Sous-tableau gauche : bordure bleue epaisse
       bars[i].style.borderBottom = '4px solid rgb(59, 130, 246)';
+      if (i === mid - 1) {
+        // Separeur visuel entre les deux moities
+        bars[i].style.borderRight = '3px solid rgba(255, 255, 255, 0.4)';
+      }
     } else if (i < hi) {
-      // Sous-tableau droit : bordure rouge epaisse
       bars[i].style.borderBottom = '4px solid rgb(239, 68, 68)';
     }
   }
