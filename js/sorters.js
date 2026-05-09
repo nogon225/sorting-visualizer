@@ -60,60 +60,31 @@ export function insertionSort(a) {
 export function mergeSort(a) {
   const s = []; const n = a.length;
 
-  // Fonction de merge qui pousse ses etapes dans le tableau out
-  function mergeTo(lo, mid, hi, out) {
+  function merge(lo, mid, hi) {
     const l = a.slice(lo, mid), r = a.slice(mid, hi);
     let i = 0, j = 0, k = lo;
     while (i < l.length && j < r.length) {
-      out.push({ type:'cmp', i:lo+i, j:mid+j });
-      if (l[i] <= r[j]) { a[k] = l[i]; out.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L' }); i++; }
-      else { a[k] = r[j]; out.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R' }); j++; }
+      s.push({ type:'cmp', i:lo+i, j:mid+j, lo, mid, hi });
+      if (l[i] <= r[j]) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L', lo, mid, hi }); i++; }
+      else { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R', lo, mid, hi }); j++; }
       k++;
     }
-    while (i < l.length) { a[k] = l[i]; out.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L' }); i++; k++; }
-    while (j < r.length) { a[k] = r[j]; out.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R' }); j++; k++; }
+    while (i < l.length) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L', lo, mid, hi }); i++; k++; }
+    while (j < r.length) { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R', lo, mid, hi }); j++; k++; }
   }
 
-  // Iteratif bottom-up : double la taille a chaque passe
-  for (let size = 1; size < n; size *= 2) {
-    const pass = Math.round(Math.log2(size));
-    const pairs = [];
-
-    // Collecter tous les couples de cette passe
-    for (let lo = 0; lo < n; lo += 2 * size) {
-      const mid = Math.min(lo + size, n);
-      const hi = Math.min(lo + 2 * size, n);
-      if (hi > mid) {
-        s.push({ type:'div', lo, mid, hi, depth: pass });
-        const st = [];
-        mergeTo(lo, mid, hi, st);
-        pairs.push({ lo, mid, hi, steps: st });
-      }
-    }
-
-    // Entrelacer les etapes de tous les couples = animation simultanee
-    if (pairs.length > 0) {
-      const maxLen = Math.max(...pairs.map(p => p.steps.length));
-      for (let stepIdx = 0; stepIdx < maxLen; stepIdx++) {
-        for (const pair of pairs) {
-          if (stepIdx < pair.steps.length) {
-            const st = pair.steps[stepIdx];
-            s.push({ ...st, lo: pair.lo, mid: pair.mid, hi: pair.hi });
-          }
-        }
-      }
-    }
-
-    // Marqueurs de fin de passe
-    for (let lo = 0; lo < n; lo += 2 * size) {
-      const mid = Math.min(lo + size, n);
-      const hi = Math.min(lo + 2 * size, n);
-      if (hi > mid) {
-        s.push({ type:'mrk', lo, mid, hi, level: pass + 1 });
-      }
-    }
+  // Recursif depth-first : moitie gauche COMPLETEMENT, puis droite
+  function ms(lo, hi, depth) {
+    if (hi - lo <= 1) return;
+    const mid = Math.floor((lo+hi)/2);
+    s.push({ type:'div', lo, mid, hi, depth: depth || 0 });
+    ms(lo, mid, (depth||0)+1);   // gauche d'abord
+    ms(mid, hi, (depth||0)+1);   // droite ensuite
+    merge(lo, mid, hi);
+    s.push({ type:'mrk', lo, mid, hi, level: Math.round(Math.log2(hi - lo)) });
   }
 
+  ms(0, n, 0);
   for (let i = 0; i < n; i++) s.push({ type:'srt', i });
   return s;
 }
