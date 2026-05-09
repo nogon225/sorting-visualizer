@@ -82,6 +82,13 @@ Chaque algorithme produit un tableau d'étapes :
 { type: 'srt', i: 2 }         // a[2] est définitivement trié
 ```
 
-## ⚙️ Prérequis
+## Construit avec
+
+Ce projet a ete entierement code par **Claw** (agent OpenClaw) en utilisant **DeepSeek** comme modele de raisonnement.
+
+- [OpenClaw](https://github.com/openclaw/openclaw) — framework agentique open-source
+- [DeepSeek](https://deepseek.com) — modele de langage
+
+## Prérequis
 
 Aucun. Un navigateur moderne suffit (ES modules + CSS Grid + `:has()` selector).
