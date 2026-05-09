@@ -53,9 +53,6 @@ function clearMergeRange(cont) {
   const bars = cont.children;
   for (let i = 0; i < bars.length; i++) {
     bars[i].style.boxShadow = 'none';
-    bars[i].style.borderTop = 'none';
-    bars[i].style.borderBottom = 'none';
-    bars[i].style.borderRight = 'none';
   }
 }
 
@@ -63,14 +60,17 @@ function applyMergeRange(cont, lo, mid, hi) {
   const bars = cont.children;
   for (let i = lo; i < hi && i < bars.length; i++) {
     if (i < mid) {
-      bars[i].style.borderBottom = '4px solid rgb(59, 130, 246)';
-      if (i === mid - 1) {
-        // Separeur visuel entre les deux moities
-        bars[i].style.borderRight = '3px solid rgba(255, 255, 255, 0.4)';
-      }
+      // Toute la moitie gauche se teinte en bleu en meme temps
+      bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(59, 130, 246, 0.35)';
     } else if (i < hi) {
-      bars[i].style.borderBottom = '4px solid rgb(239, 68, 68)';
+      // Toute la moitie droite se teinte en rouge en meme temps
+      bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(239, 68, 68, 0.35)';
     }
+  }
+  
+  // Separeur visuel: barre au milieu (dernier element de la moitie gauche)
+  if (mid > lo && mid <= hi && mid < bars.length) {
+    bars[mid - 1].style.boxShadow += ', 2px 0 0 0 rgba(255,255,255,0.4)';
   }
 }
 
