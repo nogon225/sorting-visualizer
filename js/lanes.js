@@ -6,6 +6,7 @@ import { el, dom } from './dom.js';
 import { state } from './state.js';
 import { showAlgoInfo } from './infoModal.js';
 import { ALGOS, ALGO_MAP } from './sorters.js';
+import { __ } from './i18n.js';
 
 export { ALGOS, ALGO_MAP };
 
@@ -18,22 +19,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const nameSpan = el('span', 'nm');
     nameSpan.style.color = algo.col;
-    nameSpan.textContent = algo.name;
+    nameSpan.textContent = __('algo.' + algo.id + '.name');
 
     const cxSpan = el('span', 'cx');
     cxSpan.textContent = algo.cx;
 
     const focusBtn = el('button', 'btn-focus', '🔍');
     focusBtn.dataset.algo = algo.id;
-    focusBtn.title = 'Focus sur ' + algo.name;
+    focusBtn.title = __('lane.focusTooltip', { algo: __('algo.' + algo.id + '.name') });
 
     const infoBtn = el('button', 'btn-algo-info', 'ℹ️');
     infoBtn.dataset.algo = algo.id;
-    infoBtn.title = 'Fonctionnement de ' + algo.name;
+    infoBtn.title = __('lane.infoTooltip', { algo: __('algo.' + algo.id + '.name') });
 
     const histBtn = el('button', 'btn-hist', '📋');
     histBtn.dataset.algo = algo.id;
-    histBtn.title = 'Historique des opérations';
+    histBtn.title = __('lane.histTooltip');
 
     const hdrLeft = el('div');
     hdrLeft.append(nameSpan, cxSpan, focusBtn, infoBtn, histBtn);
@@ -84,7 +85,7 @@ function showHistoryModal(algo, history) {
   if (old) old.remove();
 
   if (!history || history.length === 0) {
-    history = [{ emoji:'ℹ️', html:'Aucune opération pour le moment.', stepIndex:0 }];
+    history = [{ emoji:'ℹ️', html: __('lane.histEmpty'), stepIndex:0 }];
   }
 
   // Compter les types d'opérations
@@ -103,14 +104,14 @@ function showHistoryModal(algo, history) {
   // En-tête avec résumé
   const header = '<div class="algo-modal hist-modal">'
     + '<div class="algo-modal-hdr">'
-    + '<span>📋 ' + algo.name + ' — Historique</span>'
+    + '<span>' + __('lane.histModalTitle', { algo: __('algo.' + algo.id + '.name') }) + '</span>'
     + '<button class="algo-modal-close" id="histModalClose">✕</button>'
     + '</div>'
     + '<div class="hist-summary">'
-    + '<span>📊 <b>' + history.length + '</b> étapes</span>'
-    + '<span class="hs-cmp">🔄 <b>' + nCmp + '</b></span>'
-    + '<span class="hs-swp">🔀 <b>' + nSwp + '</b></span>'
-    + '<span class="hs-srt">✅ <b>' + nSrt + '</b></span>'
+    + '<span>' + __('lane.histSteps', { n: history.length }) + '</span>'
+    + '<span class="hs-cmp">' + __('lane.histCmp', { n: nCmp }) + '</span>'
+    + '<span class="hs-swp">' + __('lane.histSwp', { n: nSwp }) + '</span>'
+    + '<span class="hs-srt">' + __('lane.histSrt', { n: nSrt }) + '</span>'
     + '</div>'
     + '<div class="hist-body" id="histBody-' + algo.id + '">';
 

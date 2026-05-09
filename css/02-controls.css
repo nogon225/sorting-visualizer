@@ -61,3 +61,6 @@ button:disabled { opacity:.28; cursor:not-allowed; transform:none !important; fi
 
 .btn-help { background:transparent; color:#52525b; font-size:1rem; padding:2px 8px; border-radius:6px; }
 .btn-help:hover { color:#a1a1aa; background:#1e293b; }
+
+.btn-lang { background:transparent; color:#52525b; font-size:.75rem; padding:2px 8px; border-radius:6px; font-weight:500; }
+.btn-lang:hover { color:#e4e4e7; background:#1e293b; }

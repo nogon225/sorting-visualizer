@@ -2,6 +2,8 @@
  * stepInfo.js — Descriptions textuelles lisibles et colorées des étapes de tri.
  */
 
+import { __ } from './i18n.js';
+
 /**
  * Retourne une description claire d'une étape avec codes couleur.
  * @param {object}  st      - { type, i, j, v }
@@ -19,46 +21,42 @@ export function stepInfo(st, array, total, current) {
     case 'cmp':
       return {
         emoji: '🔄',
-        label: 'Comparaison',
+        label: __('steps.cmp.label'),
         detail: `a[${st.i}] (${iVal}) vs a[${st.j}] (${jVal})`,
-        html: '<span class="sc-cmp">Compare</span> <b>a[' + st.i + ']</b> = <span class="sc-val">' + iVal + '</span> '
-          + '<span class="sc-cmp">avec</span> <b>a[' + st.j + ']</b> = <span class="sc-val">' + jVal + '</span>'
-          + (iVal > jVal
-            ? ' → <span class="sc-swap">' + iVal + ' > ' + jVal + ', <span class="sc-swap">échange</span></span>'
-            : ' → <span class="sc-ok">' + iVal + ' ≤ ' + jVal + ', <span class="sc-ok">OK</span></span>')
-          + ' <span class="sc-step">' + step + '</span>',
+        html: __('steps.cmp.html', {
+          i: st.i, vI: iVal, j: st.j, vJ: jVal,
+          gt: iVal > jVal,
+          step: step
+        }),
       };
     case 'swp':
       if (st.j != null) {
         return {
           emoji: '🔀',
-          label: 'Échange',
+          label: __('steps.swp.label'),
           detail: 'a[' + st.i + '] ↔ a[' + st.j + ']',
-          html: '<span class="sc-swap">Échange</span> <b>a[' + st.i + ']</b> = <span class="sc-val">' + iVal + '</span> ↔ <b>a[' + st.j + ']</b> = <span class="sc-val">' + jVal + '</span>'
-            + ' <span class="sc-step">' + step + '</span>',
+          html: __('steps.swp.html', { i: st.i, vI: iVal, j: st.j, vJ: jVal, step: step }),
         };
       }
       return {
         emoji: '✍️',
-        label: 'Écriture',
+        label: __('steps.write.label'),
         detail: 'a[' + st.i + '] = ' + st.v,
-        html: '<span class="sc-swap">Écrit</span> <span class="sc-val">' + st.v + '</span> dans <b>a[' + st.i + ']</b>'
-          + ' <span class="sc-step">' + step + '</span>',
+        html: __('steps.write.html', { i: st.i, v: st.v, step: step }),
       };
     case 'srt':
       return {
         emoji: '✅',
-        label: 'Placement',
+        label: __('steps.srt.label'),
         detail: 'a[' + st.i + '] (' + iVal + ')',
-        html: '<b>a[' + st.i + ']</b> = <span class="sc-val">' + iVal + '</span> → <span class="sc-sorted">définitivement trié !</span>'
-          + ' <span class="sc-step">' + step + '</span>',
+        html: __('steps.srt.html', { i: st.i, v: iVal, step: step }),
       };
     default:
       return {
         emoji: '❓',
-        label: 'Étape',
+        label: __('steps.default.label'),
         detail: '' + (current + 1) + '/' + total,
-        html: 'Étape <span class="sc-step">' + step + '</span>',
+        html: __('steps.default.html', { step: step }),
       };
   }
 }
@@ -67,8 +65,9 @@ export function stepInfo(st, array, total, current) {
  * Emoji et libellé du type d'étape (pour la barre d'info).
  */
 export function stepEmoji(st) {
-  if (st.type === 'cmp') return '🔄 Comparaison';
-  if (st.type === 'swp') return '🔀 Échange';
-  if (st.type === 'srt') return '✅ Placement';
-  return '❓';
+  const labels = __('steps.emojiLabels');
+  if (st.type === 'cmp') return labels.cmp;
+  if (st.type === 'swp') return labels.swp;
+  if (st.type === 'srt') return labels.srt;
+  return labels.unknown;
 }

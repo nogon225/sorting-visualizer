@@ -5,6 +5,7 @@ import { state } from './state.js';
 import { dom } from './dom.js';
 import { ALGOS, ALGO_MAP, lanes } from './lanes.js';
 import { animate } from './animations.js';
+import { __ } from './i18n.js';
 
 /** Lance tous les algorithmes simultanément sur les mêmes données. */
 export async function runRace() {
@@ -17,7 +18,7 @@ export async function runRace() {
   dom.btnPause.disabled = false;
   dom.btnPause.textContent = '⏸ Pause';
   dom.btnPause.classList.remove('btn-pause-on');
-  dom.status.innerHTML = '⏳ Tri en cours…';
+  dom.status.innerHTML = __('status.sorting');
 
   state.abortControllers.forEach(c => c.abort());
   state.abortControllers = [];
@@ -63,17 +64,20 @@ export async function runRace() {
     const ranking = algosToRun.map((algo, index) => {
       const r = results[index];
       const elapsed = r.status === 'fulfilled' && !r.value.aborted ? r.value.elapsed : Infinity;
-      return { name: algo.name, elapsed };
+      return { name: __('algo.' + algo.id + '.name'), elapsed };
     }).filter(x => x.elapsed < Infinity).sort((a, b) => a.elapsed - b.elapsed);
 
     if (ranking.length > 1) {
-      dom.status.innerHTML = '🏆 <span class="win">' + ranking[0].name + '</span> gagne en <strong>'
-        + ranking[0].elapsed + 'ms</strong> ! 2<sup>e</sup> ' + ranking[1].name + ' ' + ranking[1].elapsed + 'ms';
+      dom.status.innerHTML = __('status.winner', {
+        name: ranking[0].name, ms: ranking[0].elapsed,
+        second: ranking[1].name, secondMs: ranking[1].elapsed
+      });
     } else if (ranking.length === 1) {
-      dom.status.innerHTML = '✅ <span class="win">' + ranking[0].name + '</span> terminé en <strong>'
-        + ranking[0].elapsed + 'ms</strong>';
+      dom.status.innerHTML = __('status.singleWinner', {
+        name: ranking[0].name, ms: ranking[0].elapsed
+      });
     } else {
-      dom.status.innerHTML = '❌ Tous annulés.';
+      dom.status.innerHTML = __('status.cancelled');
     }
   } finally {
     if (genId === state.runGeneration) {

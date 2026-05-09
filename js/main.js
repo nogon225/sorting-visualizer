@@ -5,6 +5,7 @@ import { state } from './state.js';
 import { dom } from './dom.js';
 import { render } from './renderer.js';
 import { ALGOS, lanes } from './lanes.js';
+import { __, applyTranslations } from './i18n.js';
 import './controls.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,5 +30,8 @@ document.addEventListener('DOMContentLoaded', () => {
     lanes[algo.id].descEl.textContent = '';
   });
 
-  dom.status.innerHTML = 'Prêt — clique sur <strong>▶ Trier</strong>';
+  dom.status.innerHTML = __('status.ready');
+
+  // Applique les traductions aux data-i18n après rendu
+  applyTranslations();
 });

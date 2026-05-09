@@ -5,6 +5,7 @@ import { state } from './state.js';
 import { dom } from './dom.js';
 import { render } from './renderer.js';
 import { ALGOS, lanes } from './lanes.js';
+import { __ } from './i18n.js';
 
 function generateData(count) {
   const result = [];
@@ -15,6 +16,7 @@ function generateData(count) {
 function resetAllStats() {
   state.renderGeneration++;
   ALGOS.forEach(algo => {
+    lanes[algo.id]._history = [];
     render(lanes[algo.id].cont, state.data, { _force: true });
     lanes[algo.id].cmpEl.textContent = '0';
     lanes[algo.id].swpEl.textContent = '0';
@@ -32,7 +34,7 @@ export function shuffle() {
   dom.btnRun.disabled = false;
   dom.btnReset.disabled = false;
   resetAllStats();
-  dom.status.innerHTML = 'Prêt — clique sur <strong>▶ Trier</strong>';
+  dom.status.innerHTML = __('status.ready');
 }
 
 /** Reset : restaure les données d'avant le tri. */
@@ -90,5 +92,5 @@ export function reset() {
   // Restaure les données d'origine
   state.data = [...state.initialData];
   resetAllStats();
-  dom.status.innerHTML = 'Prêt — clique sur <strong>▶ Trier</strong>';
+  dom.status.innerHTML = __('status.ready');
 }

@@ -3,6 +3,7 @@
  */
 import { render } from './renderer.js';
 import { stepInfo, stepEmoji } from './stepInfo.js';
+import { __ } from './i18n.js';
 
 // ─── Animation de swap (translation) ────────────────────────────
 
@@ -90,7 +91,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
       if (step.i != null && step.j != null && delay > 10) {
         classes[step.i] = 2; classes[step.j] = 2;
         render(dom.cont, workArray, classes);
-        dom.typeEl.textContent = '🔀 ← Échange →';
+        dom.typeEl.textContent = __('typeLabels.swap');
         dom.timeEl.textContent = Math.round(performance.now() - t0);
         const dur = Math.min(600, Math.max(80, delay * 1.5));
         await animateSwap(dom.cont, step.i, step.j, dur);
@@ -99,14 +100,14 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
         if (step.from != null && step.from !== step.i) {
           classes[step.i] = 2; classes[step.from] = 1;
           render(dom.cont, workArray, classes);
-          dom.typeEl.textContent = '➡️ Déplacement';
+          dom.typeEl.textContent = __('typeLabels.move');
           dom.timeEl.textContent = Math.round(performance.now() - t0);
           const dur = Math.min(600, Math.max(80, delay * 1.5));
           await animateSwap(dom.cont, step.from, step.i, dur);
         } else {
           classes[step.i] = 2;
           render(dom.cont, workArray, classes);
-          dom.typeEl.textContent = '✍️ Écriture';
+          dom.typeEl.textContent = __('typeLabels.write');
           dom.timeEl.textContent = Math.round(performance.now() - t0);
           const bar = dom.cont.children[step.i];
           if (bar) {
@@ -155,8 +156,8 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
   for (let i = 0; i < workArray.length; i++) finalClasses[i] = 3;
   render(dom.cont, workArray, finalClasses);
   dom.timeEl.textContent = Math.round(performance.now() - t0);
-  dom.typeEl.textContent = '✅ Terminé';
-  dom.descEl.innerHTML = 'Tableau trié en <strong>' + Math.round(performance.now() - t0) + 'ms</strong> (' + totalSteps + ' étapes)';
+  dom.typeEl.textContent = __('typeLabels.done');
+  dom.descEl.innerHTML = __('status.done', { ms: Math.round(performance.now() - t0), steps: totalSteps });
   dom.okEl.style.opacity = '1';
   return { cmp: comparisons, swp: swaps, elapsed: performance.now() - t0, aborted: false };
 }

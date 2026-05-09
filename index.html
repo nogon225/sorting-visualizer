@@ -3,99 +3,99 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Algorithmes de Tri — Visualisation</title>
-  <link rel="stylesheet" href="css/style.css?v=6">
+  <title data-i18n="meta.title">Algorithmes de Tri — Visualisation</title>
+  <link rel="stylesheet" href="css/style.css?v=7">
 </head>
 <body>
 
-<h1>Algorithmes de Tri</h1>
+<h1 data-i18n="meta.title">Algorithmes de Tri</h1>
 
 
 <div class="controls">
   <div class="controls-row controls-sliders">
     <div class="ctrl-group">
-      <label for="sS">Éléments</label>
+      <label for="sS" data-i18n="controls.elements">Éléments</label>
       <input type="range" id="sS" min="10" max="200" value="60">
       <span class="val" id="sD">60</span>
     </div>
     <div class="ctrl-group">
-      <label for="speed">Vitesse</label>
+      <label for="speed" data-i18n="controls.vitesse">Vitesse</label>
       <input type="range" id="speed" min="1" max="10" value="6">
       <span class="val" id="speedV">Normal</span>
     </div>
-    <button class="btn-go"  id="bGo">▶ Trier</button>
+    <button class="btn-go"  id="bGo" data-i18n="buttons.sort">▶ Trier</button>
   </div>
   <div class="controls-row controls-actions">
-    <button class="btn-rnd" id="bRnd">🎲 Mélanger</button>
+    <button class="btn-rnd" id="bRnd" data-i18n="buttons.shuffle">🎲 Mélanger</button>
     <button class="btn-pause" id="bPa" disabled>⏸ Pause</button>
-    <button class="btn-rs"  id="bRs">↺ Reset</button>
-    <button class="btn-help" id="bHelp">❓</button>
+    <button class="btn-rs"  id="bRs" data-i18n="buttons.reset">↺ Reset</button>
+    <button class="btn-help" id="bHelp" data-i18n="buttons.help" title="❓">❓</button>
+    <button class="btn-lang" id="btnLang" data-i18n="buttons.lang">🇬🇧 EN</button>
   </div>
 </div>
 
 <div class="legend">
-  <span class="l0">🔵 Défaut</span>
-  <span class="l1">🟡 Comparaison</span>
-  <span class="l2">🔴 Échange</span>
-  <span class="l3">🟢 Trié</span>
-
+  <span class="l0" data-i18n="legend.0">🔵 Défaut</span>
+  <span class="l1" data-i18n="legend.1">🟡 Comparaison</span>
+  <span class="l2" data-i18n="legend.2">🔴 Échange</span>
+  <span class="l3" data-i18n="legend.3">🟢 Trié</span>
 </div>
 
 <div class="track" id="track"></div>
-<div class="status" id="status">Chargement…</div>
+<div class="status" id="status" data-i18n-html="status.ready">Chargement…</div>
 
 <!-- Modal d'aide -->
 <div class="modal-overlay" id="modalHelp" style="display:none">
   <div class="modal">
     <div class="modal-hdr">
-      <span>📖 Légende & Indicateurs</span>
+      <span data-i18n="helpModal.title">📖 Légende & Indicateurs</span>
       <button class="modal-close" id="modalClose">✕</button>
     </div>
     <div class="modal-body">
 
       <section>
-        <h3>🎨 Couleurs des barres</h3>
+        <h3 data-i18n="helpModal.sections.0.title">🎨 Couleurs des barres</h3>
         <table>
-          <tr><td><span class="l0">🔵</span></td><td><b>Défaut</b></td><td>Valeur en attente, pas encore touchée</td></tr>
-          <tr><td><span class="l1">🟡</span></td><td><b>Comparaison</b></td><td>Deux éléments sont en train d'être comparés</td></tr>
-          <tr><td><span class="l2">🔴</span></td><td><b>Échange</b></td><td>Les éléments sont permutés ou une valeur est écrite</td></tr>
-          <tr><td><span class="l3">🟢</span></td><td><b>Trié</b></td><td>L'élément est à sa position définitive</td></tr>
+          <tr><td><span class="l0">🔵</span></td><td><b data-i18n="helpModal.sections.0.rows.0.label">Défaut</b></td><td data-i18n="helpModal.sections.0.rows.0.desc">Valeur en attente, pas encore touchée</td></tr>
+          <tr><td><span class="l1">🟡</span></td><td><b data-i18n="helpModal.sections.0.rows.1.label">Comparaison</b></td><td data-i18n="helpModal.sections.0.rows.1.desc">Deux éléments sont en train d'être comparés</td></tr>
+          <tr><td><span class="l2">🔴</span></td><td><b data-i18n="helpModal.sections.0.rows.2.label">Échange</b></td><td data-i18n="helpModal.sections.0.rows.2.desc">Les éléments sont permutés ou une valeur est écrite</td></tr>
+          <tr><td><span class="l3">🟢</span></td><td><b data-i18n="helpModal.sections.0.rows.3.label">Trié</b></td><td data-i18n="helpModal.sections.0.rows.3.desc">L'élément est à sa position définitive</td></tr>
         </table>
       </section>
 
       <section>
-        <h3>📊 Indicateurs de performance</h3>
+        <h3 data-i18n="helpModal.sections.1.title">📊 Indicateurs de performance</h3>
         <table>
-          <tr><td>🔄 <b>Comparaisons</b></td><td>Nombre total de fois où l'algorithme compare deux éléments entre eux. Plus ce nombre est bas, plus l'algorithme est efficace.</td></tr>
-          <tr><td>🔀 <b>Échanges</b></td><td>Nombre total de swaps ou d'écritures. Certains algorithmes échangent beaucoup (Bubble), d'autres peu (Selection).</td></tr>
-          <tr><td>⏱ <b>Temps (ms)</b></td><td>Temps réel d'exécution en millisecondes. Dépend de la taille des données et de la vitesse de votre machine.</td></tr>
-          <tr><td>🔍 <b>Focus</b></td><td>Cliquez pour isoler un algorithme. Utile pour étudier son comportement en détail sans distraction.</td></tr>
-          <tr><td>🎲 <b>Mélanger</b></td><td>Génère un nouveau jeu de données aléatoires pour repartir à zéro.</td></tr>
-          <tr><td>▶ <b>Trier</b></td><td>Lance tous les algorithmes simultanément sur les mêmes données.</td></tr>
-          <tr><td>⏸ <b>Pause / Resume</b></td><td>Met en pause ou reprend l'animation pour analyser une étape précise.</td></tr>
+          <tr><td>🔄 <b data-i18n="helpModal.sections.1.rows.0.label">Comparaisons</b></td><td data-i18n="helpModal.sections.1.rows.0.desc">Nombre total de fois où l'algorithme compare deux éléments entre eux. Plus ce nombre est bas, plus l'algorithme est efficace.</td></tr>
+          <tr><td>🔀 <b data-i18n="helpModal.sections.1.rows.1.label">Échanges</b></td><td data-i18n="helpModal.sections.1.rows.1.desc">Nombre total de swaps ou d'écritures. Certains algorithmes échangent beaucoup (Bubble), d'autres peu (Selection).</td></tr>
+          <tr><td>⏱ <b data-i18n="helpModal.sections.1.rows.2.label">Temps (ms)</b></td><td data-i18n="helpModal.sections.1.rows.2.desc">Temps réel d'exécution en millisecondes. Dépend de la taille des données et de la vitesse de votre machine.</td></tr>
+          <tr><td>🔍 <b data-i18n="helpModal.sections.1.rows.3.label">Focus</b></td><td data-i18n="helpModal.sections.1.rows.3.desc">Cliquez pour isoler un algorithme. Utile pour étudier son comportement en détail sans distraction.</td></tr>
+          <tr><td>🎲 <b data-i18n="helpModal.sections.1.rows.4.label">Mélanger</b></td><td data-i18n="helpModal.sections.1.rows.4.desc">Génère un nouveau jeu de données aléatoires pour repartir à zéro.</td></tr>
+          <tr><td>▶ <b data-i18n="helpModal.sections.1.rows.5.label">Trier</b></td><td data-i18n="helpModal.sections.1.rows.5.desc">Lance tous les algorithmes simultanément sur les mêmes données.</td></tr>
+          <tr><td>⏸ <b data-i18n="helpModal.sections.1.rows.6.label">Pause / Resume</b></td><td data-i18n="helpModal.sections.1.rows.6.desc">Met en pause ou reprend l'animation pour analyser une étape précise.</td></tr>
         </table>
       </section>
 
       <section>
-        <h3>🎚 Vitesse d'animation</h3>
+        <h3 data-i18n="helpModal.sections.2.title">🎚 Vitesse d'animation</h3>
         <table>
-          <tr><td>🐢 <b>Très lent</b></td><td>Une étape à la fois avec délai — idéal pour comprendre le fonctionnement</td></tr>
-          <tr><td><b>Normal</b></td><td>Fluide, bonne vision d'ensemble</td></tr>
-          <tr><td>⚡ <b>Éclair</b></td><td>Maximum de vitesse, pour voir le résultat final rapidement</td></tr>
+          <tr><td>🐢 <b data-i18n="helpModal.sections.2.rows.0.label">Très lent</b></td><td data-i18n="helpModal.sections.2.rows.0.desc">Une étape à la fois avec délai — idéal pour comprendre le fonctionnement</td></tr>
+          <tr><td><b data-i18n="helpModal.sections.2.rows.1.label">Normal</b></td><td data-i18n="helpModal.sections.2.rows.1.desc">Fluide, bonne vision d'ensemble</td></tr>
+          <tr><td>⚡ <b data-i18n="helpModal.sections.2.rows.2.label">Éclair</b></td><td data-i18n="helpModal.sections.2.rows.2.desc">Maximum de vitesse, pour voir le résultat final rapidement</td></tr>
         </table>
       </section>
 
       <section>
-        <h3>ℹ️ Description textuelle</h3>
-        <p>Sous chaque algorithme, une ligne décrit l'opération en cours :</p>
+        <h3 data-i18n="helpModal.sections.3.title">ℹ️ Description textuelle</h3>
+        <p data-i18n="helpModal.sections.3.intro">Sous chaque algorithme, une ligne décrit l'opération en cours :</p>
         <p class="ex"><code>🔄 Compare a[3]=42 et a[4]=17 → 42 > 17, échange nécessaire</code></p>
-        <p>Ça vous permet de suivre exactement ce que l'algorithme fait à chaque instant.</p>
+        <p data-i18n="helpModal.sections.3.footer">Ça vous permet de suivre exactement ce que l'algorithme fait à chaque instant.</p>
       </section>
 
     </div>
   </div>
 </div>
 
-<script type="module" src="js/main.js?v=7"></script>
+<script type="module" src="js/main.js?v=8"></script>
 </body>
 </html>

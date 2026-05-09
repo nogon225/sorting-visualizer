@@ -3,6 +3,7 @@
  */
 import { state } from './state.js';
 import { dom } from './dom.js';
+import { __ } from './i18n.js';
 
 export function togglePause() {
   const isPaused = state.pausePromise !== null;
@@ -12,7 +13,7 @@ export function togglePause() {
     state.pausePromise = new Promise(resolve => { state.pauseResolve = resolve; });
     dom.btnPause.textContent = '▶ Resume';
     dom.btnPause.classList.add('btn-pause-on');
-    dom.status.innerHTML = '⏸ En pause';
+    dom.status.innerHTML = __('status.paused');
   } else {
     // RESUME
     const resolveFn = state.pauseResolve;
@@ -21,6 +22,6 @@ export function togglePause() {
     if (resolveFn) resolveFn();
     dom.btnPause.textContent = '⏸ Pause';
     dom.btnPause.classList.remove('btn-pause-on');
-    dom.status.innerHTML = '▶ Reprise…';
+    dom.status.innerHTML = __('status.resuming');
   }
 }

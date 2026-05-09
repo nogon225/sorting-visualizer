@@ -9,6 +9,8 @@
  *   srt  → élément i est à sa place définitive
  */
 
+import { __ } from './i18n.js';
+
 export function bubbleSort(a) {
   const s = []; const n = a.length;
   for (let i = 0; i < n-1; i++) {
@@ -116,6 +118,11 @@ export function quickSort(a) {
   return s;
 }
 
+/** Helper : retourne le nom traduit d'un algo */
+export function getAlgoName(id) {
+  return __('algo.' + id + '.name');
+}
+
 export function heapSort(a) {
   const s = []; const n = a.length;
 
@@ -160,12 +167,12 @@ export const ALGO_MAP = {
   heap:      heapSort,
 };
 
-/** Métadonnées des algorithmes (id, nom, complexité, couleur) */
+/** Métadonnées des algorithmes (id, complexité, couleur) */
 export const ALGOS = [
-  { id:'bubble',    name:'Bubble Sort',    cx:'O(n²)',       col:'#3b82f6' },
-  { id:'selection', name:'Selection Sort', cx:'O(n²)',       col:'#8b5cf6' },
-  { id:'insertion', name:'Insertion Sort', cx:'O(n²)',       col:'#ec4899' },
-  { id:'merge',     name:'Merge Sort',     cx:'O(n log n)',  col:'#f59e0b' },
-  { id:'quick',     name:'Quick Sort',     cx:'O(n log n)',  col:'#10b981' },
-  { id:'heap',      name:'Heap Sort',      cx:'O(n log n)',  col:'#06b6d4' },
+  { id:'bubble',    cx:'O(n²)',       col:'#3b82f6' },
+  { id:'selection', cx:'O(n²)',       col:'#8b5cf6' },
+  { id:'insertion', cx:'O(n²)',       col:'#ec4899' },
+  { id:'merge',     cx:'O(n log n)',  col:'#f59e0b' },
+  { id:'quick',     cx:'O(n log n)',  col:'#10b981' },
+  { id:'heap',      cx:'O(n log n)',  col:'#06b6d4' },
 ];
