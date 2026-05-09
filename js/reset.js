@@ -17,6 +17,11 @@ function resetAllStats() {
   state.renderGeneration++;
   ALGOS.forEach(algo => {
     lanes[algo.id]._history = [];
+    const bars = lanes[algo.id].cont.children;
+    for (let i = 0; i < bars.length; i++) {
+      bars[i].style.boxShadow = 'none';
+      bars[i].style.borderTop = 'none';
+    }
     render(lanes[algo.id].cont, state.data, { _force: true });
     lanes[algo.id].cmpEl.textContent = '0';
     lanes[algo.id].swpEl.textContent = '0';
