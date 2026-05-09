@@ -17,8 +17,7 @@
   .hdr .cx { font-size:.48rem; padding:0 4px; }
   .btn-focus, .btn-algo-info { padding:2px 5px; min-width:20px; min-height:20px; font-size:.65rem; }
   .btn-hist { padding:2px 4px; font-size:.6rem; }
-  .step-info { padding:0 8px; height:12px; font-size:.5rem; }
-  .step-desc { display:none; }
+  .step-info { display:none; }
   .lane { padding:1px 0; }
   .bars .b::before { display:none; }
   .bv { font-size:.45rem; }
@@ -138,8 +137,7 @@
   .hdr .st { font-size:.45rem; gap:2px; }
   .hdr .st .v { font-size:.45rem; }
   .hdr .st .done { font-size:.5rem; }
-  .step-info { padding:0 6px; height:12px; font-size:.5rem; }
-  .step-desc { display:none; }
+  .step-info { display:none; }
   .lane { padding:2px 0; }
   .bv {
     display: none !important;
