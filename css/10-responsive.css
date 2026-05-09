@@ -142,7 +142,7 @@
   .step-desc { display:none; }
   .lane { padding:2px 0; }
   .bv {
-    display:none;
+    display: none !important;
   }
   .bi-wrap { display:none; }
   .bars { column-gap:0.5px; }
