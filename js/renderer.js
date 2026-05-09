@@ -43,6 +43,7 @@ export function render(cont, values, classes = {}) {
     const cls = classes[i] !== undefined ? CSS_CLS[classes[i]] : 'b0';
 
     if (bar.className !== 'b ' + cls) bar.className = 'b ' + cls;
+    bar.style.boxShadow = 'none';
     bar.style.height = height.toFixed(1) + '%';
     bar.firstChild.textContent = values[i];
   }
