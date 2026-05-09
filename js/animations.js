@@ -168,6 +168,17 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
       comparisons++;
       dom.cmpEl.textContent = comparisons;
       classes[step.i] = 1; classes[step.j] = 1;
+    } else if (step.type === 'div') {
+      // Division recursive : montre le decoupage du tableau
+      if (step.lo != null && step.hi != null) {
+        applyMergeRange(dom.cont, step.lo, step.mid, step.hi);
+        dom._mergeLevel = -1;
+        dom.typeEl.textContent = '🔪 Division [' + step.lo + '..' + step.hi + '[ en [' + step.lo + '..' + step.mid + '[ [' + step.mid + '..' + step.hi + '[';
+        if (delay > 10) {
+          render(dom.cont, workArray, {});
+          await new Promise(r => setTimeout(r, Math.min(600, delay)));
+        }
+      }
     } else if (step.type === 'swp') {
       if (step.i != null && step.j != null) {
         // Swap entre deux elements

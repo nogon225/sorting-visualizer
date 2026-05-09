@@ -73,14 +73,15 @@ export function mergeSort(a) {
     while (j < r.length) { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R', lo, mid, hi }); j++; k++; }
   }
 
-  function ms(lo, hi) {
+  function ms(lo, hi, depth) {
     if (hi - lo <= 1) return;
     const mid = Math.floor((lo+hi)/2);
-    ms(lo, mid); ms(mid, hi);
+    s.push({ type:'div', lo, mid, hi, depth: depth || 0 });
+    ms(lo, mid, (depth||0)+1); ms(mid, hi, (depth||0)+1);
     merge(lo, mid, hi);
   }
 
-  ms(0, n);
+  ms(0, n, 0);
   for (let i = 0; i < n; i++) s.push({ type:'srt', i });
   return s;
 }
