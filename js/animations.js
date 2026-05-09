@@ -29,6 +29,24 @@ function animateSwap(cont, idxA, idxB, duration) {
   });
 }
 
+// ─── Indicateur de niveau de fusion (Merge Sort) ─────────────
+function showMergeLevel(dom, hi, lo) {
+  const size = hi - lo;
+  let level;
+  if (size <= 2) level = 1;
+  else if (size <= 4) level = 2;
+  else if (size <= 8) level = 3;
+  else if (size <= 16) level = 4;
+  else if (size <= 32) level = 5;
+  else level = 6;
+
+  if (level !== dom._mergeLevel) {
+    dom._mergeLevel = level;
+    const subSize = size / 2;
+    dom.typeEl.textContent = '📊 Passe ' + level + ' (fusion ' + subSize + '-a-' + subSize + ')';
+  }
+}
+
 // ─── Surlignage des sous-tableaux (Merge Sort) ───────────────
 // Applique une teinte bleue/rouge sur les barres du sous-tableau gauche/droit.
 function clearMergeRange(cont) {
@@ -133,6 +151,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
   dom._algoId = id;
 
   clearMergeRange(dom.cont);
+  dom._mergeLevel = -1;
   render(dom.cont, workArray, {});
 
   for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
@@ -216,6 +235,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
       // Surlignage des sous-tableaux pour le tri fusion
       if (step.lo != null && step.hi != null) {
         applyMergeRange(dom.cont, step.lo, step.mid, step.hi);
+        showMergeLevel(dom, step.hi, step.lo);
       }
       if (step.type === 'cmp' && delay > 15) {
         triggerAnimation(dom.cont.children[step.i], 'b-cmp');
