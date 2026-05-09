@@ -29,27 +29,25 @@ function animateSwap(cont, idxA, idxB, duration) {
   });
 }
 
-// ─── Animation de deplacement unidirectionnel ───────────────────
+// ─── Animation de copie/deplacement unidirectionnel ─────────────
+// N'effectue pas de deplacement physique des barres (CSS Grid fixe).
+// Montre la source qui se met a briller et la destination qui pulse.
 function animateMove(cont, fromIdx, toIdx, duration) {
   return new Promise(resolve => {
     const bars = cont.children;
     if (!bars[fromIdx] || !bars[toIdx]) { resolve(); return; }
-    const rectFrom = bars[fromIdx].getBoundingClientRect();
-    const rectTo = bars[toIdx].getBoundingClientRect();
-    const deltaX = rectTo.left - rectFrom.left;
-    const deltaY = Math.min(rectTo.top - rectFrom.top, 10);
-    const easing = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
 
-    // La barre source glisse vers la destination
-    bars[fromIdx].style.transition = 'transform ' + duration + 'ms ' + easing;
-    bars[fromIdx].style.transform = 'translate(' + deltaX + 'px,' + deltaY + 'px)';
-    // La barre destination pulse pour indiquer qu'elle va etre remplacee
+    // Source : halo lumineux pour indiquer d'ou vient la valeur
+    bars[fromIdx].style.transition = 'box-shadow ' + duration + 'ms ease-out';
+    bars[fromIdx].style.boxShadow = '0 0 10px 3px rgba(250, 204, 21, 0.5)';
+
+    // Destination : se contracte pour montrer qu'elle va etre ecrasee
     bars[toIdx].style.transition = 'transform ' + (duration * 0.3) + 'ms ease-out';
-    bars[toIdx].style.transform = 'scaleY(0.85)';
+    bars[toIdx].style.transform = 'scaleY(0.7)';
 
     setTimeout(() => {
       bars[fromIdx].style.transition = 'none';
-      bars[fromIdx].style.transform = '';
+      bars[fromIdx].style.boxShadow = 'none';
       bars[toIdx].style.transition = 'none';
       bars[toIdx].style.transform = '';
       resolve();
