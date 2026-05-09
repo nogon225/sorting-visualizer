@@ -29,6 +29,28 @@ function animateSwap(cont, idxA, idxB, duration) {
   });
 }
 
+// ─── Surlignage des sous-tableaux (Merge Sort) ───────────────
+// Applique une teinte bleue/rouge sur les barres du sous-tableau gauche/droit.
+function clearMergeRange(cont) {
+  const bars = cont.children;
+  for (let i = 0; i < bars.length; i++) {
+    bars[i].style.boxShadow = 'none';
+  }
+}
+
+function applyMergeRange(cont, lo, mid, hi) {
+  const bars = cont.children;
+  for (let i = lo; i < hi && i < bars.length; i++) {
+    if (i < mid) {
+      // Sous-tableau gauche : teinte bleue
+      bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(59, 130, 246, 0.12)';
+    } else if (i < hi) {
+      // Sous-tableau droit : teinte rouge
+      bars[i].style.boxShadow = 'inset 0 0 0 1000px rgba(239, 68, 68, 0.12)';
+    }
+  }
+}
+
 // ─── Animation de deplacement unidirectionnel (Merge Sort) ─────
 // La valeur gagnante glisse de sa position source vers la position de fusion.
 // La destination pulse pour montrer qu'elle recoit la nouvelle valeur.
@@ -110,6 +132,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
   dom._history = [];
   dom._algoId = id;
 
+  clearMergeRange(dom.cont);
   render(dom.cont, workArray, {});
 
   for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
@@ -119,6 +142,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
     if (pauseP) await pauseP;
     if (sig.aborted) return { cmp: comparisons, swp: swaps, elapsed: 0, aborted: true };
     for (const key of Object.keys(classes)) delete classes[key];
+    clearMergeRange(dom.cont);
     const delay = getDelayMs();
 
     if (step.type === 'cmp') {
@@ -189,6 +213,10 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
 
     if (!sig.aborted) {
       render(dom.cont, workArray, classes);
+      // Surlignage des sous-tableaux pour le tri fusion
+      if (step.lo != null && step.hi != null) {
+        applyMergeRange(dom.cont, step.lo, step.mid, step.hi);
+      }
       if (step.type === 'cmp' && delay > 15) {
         triggerAnimation(dom.cont.children[step.i], 'b-cmp');
         triggerAnimation(dom.cont.children[step.j], 'b-cmp');

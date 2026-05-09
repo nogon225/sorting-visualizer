@@ -64,13 +64,13 @@ export function mergeSort(a) {
     const l = a.slice(lo, mid), r = a.slice(mid, hi);
     let i = 0, j = 0, k = lo;
     while (i < l.length && j < r.length) {
-      s.push({ type:'cmp', i:lo+i, j:mid+j });
-      if (l[i] <= r[j]) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L' }); i++; }
-      else { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R' }); j++; }
+      s.push({ type:'cmp', i:lo+i, j:mid+j, lo, mid, hi });
+      if (l[i] <= r[j]) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L', lo, mid, hi }); i++; }
+      else { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R', lo, mid, hi }); j++; }
       k++;
     }
-    while (i < l.length) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L' }); i++; k++; }
-    while (j < r.length) { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R' }); j++; k++; }
+    while (i < l.length) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L', lo, mid, hi }); i++; k++; }
+    while (j < r.length) { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R', lo, mid, hi }); j++; k++; }
   }
 
   function ms(lo, hi) {
