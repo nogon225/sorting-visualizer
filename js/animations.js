@@ -175,11 +175,17 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
   render(dom.cont, workArray, {});
 
   for (let stepIndex = 0; stepIndex < steps.length; stepIndex++) {
-    if (sig.aborted) return { cmp: comparisons, swp: swaps, elapsed: 0, aborted: true };
+    if (sig.aborted) {
+      clearMergeRange(dom.cont);
+      return { cmp: comparisons, swp: swaps, elapsed: 0, aborted: true };
+    }
     const step = steps[stepIndex];
     const pauseP = getPausePromise ? getPausePromise() : null;
     if (pauseP) await pauseP;
-    if (sig.aborted) return { cmp: comparisons, swp: swaps, elapsed: 0, aborted: true };
+    if (sig.aborted) {
+      clearMergeRange(dom.cont);
+      return { cmp: comparisons, swp: swaps, elapsed: 0, aborted: true };
+    }
     for (const key of Object.keys(classes)) delete classes[key];
     const delay = getDelayMs();
 
