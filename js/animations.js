@@ -29,35 +29,41 @@ function animateSwap(cont, idxA, idxB, duration) {
   });
 }
 
-// ─── Animation de copie (sans deplacement) ─────────────────────
-// Utilisee pour Merge Sort : la barre source brille, la destination pulse et prend la valeur
-function animateCopy(cont, fromIdx, toIdx, duration) {
+// ─── Animation de deplacement unidirectionnel (Merge Sort) ─────
+// La valeur gagnante glisse de sa position source vers la position de fusion.
+// La destination pulse pour montrer qu'elle recoit la nouvelle valeur.
+function animateMerge(cont, fromIdx, toIdx, duration, side) {
   return new Promise(resolve => {
     const bars = cont.children;
     if (!bars[fromIdx] || !bars[toIdx]) { resolve(); return; }
 
-    // Source : halo pour indiquer d'ou vient la valeur
-    bars[fromIdx].style.transition = 'box-shadow ' + duration + 'ms ease-out';
-    bars[fromIdx].style.boxShadow = '0 0 12px 4px rgba(96, 165, 250, 0.6)';
+    const rectFrom = bars[fromIdx].getBoundingClientRect();
+    const rectTo = bars[toIdx].getBoundingClientRect();
+    const deltaX = rectTo.left - rectFrom.left;
+    const deltaY = rectTo.top - rectFrom.top;
 
-    // Destination : se contracte puis se detend
-    bars[toIdx].style.transition = 'transform ' + (duration * 0.4) + 'ms ease-out';
+    // Couleur selon la sous-partie : bleu pour gauche, rouge pour droite
+    const glowColor = side === 'R' ? 'rgba(239, 68, 68, 0.7)' : 'rgba(59, 130, 246, 0.7)';
+
+    // La barre source glisse vers la destination
+    bars[fromIdx].style.transition = 'transform ' + duration + 'ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+    bars[fromIdx].style.transform = 'translate(' + deltaX + 'px,' + deltaY + 'px)';
+    bars[fromIdx].style.zIndex = '10';
+    bars[fromIdx].style.boxShadow = '0 0 15px 5px ' + glowColor;
+
+    // La destination pulse
+    bars[toIdx].style.transition = 'transform ' + (duration * 0.35) + 'ms ease-out';
     bars[toIdx].style.transform = 'scaleY(0.6)';
 
     setTimeout(() => {
-      bars[toIdx].style.transition = 'transform ' + (duration * 0.3) + 'ms ease-out';
-      bars[toIdx].style.transform = '';
-      bars[fromIdx].style.transition = 'box-shadow ' + (duration * 0.3) + 'ms ease-out';
+      bars[fromIdx].style.transition = 'none';
+      bars[fromIdx].style.transform = '';
+      bars[fromIdx].style.zIndex = '';
       bars[fromIdx].style.boxShadow = 'none';
-
-      setTimeout(() => {
-        bars[fromIdx].style.transition = 'none';
-        bars[fromIdx].style.boxShadow = 'none';
-        bars[toIdx].style.transition = 'none';
-        bars[toIdx].style.transform = '';
-        resolve();
-      }, duration * 0.3 + 10);
-    }, duration * 0.4 + 10);
+      bars[toIdx].style.transition = 'none';
+      bars[toIdx].style.transform = '';
+      resolve();
+    }, duration + 20);
   });
 }
 
@@ -168,7 +174,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
           dom.typeEl.textContent = __('typeLabels.move');
           dom.timeEl.textContent = Math.round(performance.now() - t0);
           const dur = Math.min(600, Math.max(80, delay * 1.5));
-          await animateCopy(dom.cont, step.from, step.i, dur);
+          await animateMerge(dom.cont, step.from, step.i, dur, step.side);
           workArray[step.i] = step.v;
           render(dom.cont, workArray, classes);
         } else {

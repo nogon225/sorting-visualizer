@@ -65,12 +65,12 @@ export function mergeSort(a) {
     let i = 0, j = 0, k = lo;
     while (i < l.length && j < r.length) {
       s.push({ type:'cmp', i:lo+i, j:mid+j });
-      if (l[i] <= r[j]) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i }); i++; }
-      else { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j }); j++; }
+      if (l[i] <= r[j]) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L' }); i++; }
+      else { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R' }); j++; }
       k++;
     }
-    while (i < l.length) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i }); i++; k++; }
-    while (j < r.length) { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j }); j++; k++; }
+    while (i < l.length) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L' }); i++; k++; }
+    while (j < r.length) { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R' }); j++; k++; }
   }
 
   function ms(lo, hi) {
