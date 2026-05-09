@@ -296,6 +296,12 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
   const finalClasses = {};
   for (let i = 0; i < workArray.length; i++) finalClasses[i] = 3;
   render(dom.cont, workArray, finalClasses);
+  clearMergeRange(dom.cont);
+  // Nettoie aussi les borderTop et borderRight residuels
+  const bars = dom.cont.children;
+  for (let i = 0; i < bars.length; i++) {
+    bars[i].style.borderTop = 'none';
+  }
   dom.timeEl.textContent = Math.round(performance.now() - t0);
   dom.typeEl.textContent = __('typeLabels.done');
   dom.descEl.innerHTML = __('status.done', { ms: Math.round(performance.now() - t0), steps: totalSteps });
