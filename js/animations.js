@@ -68,31 +68,6 @@ function animateMerge(cont, fromIdx, toIdx, duration, side) {
 }
 
 function triggerAnimation(bar, className) {
-  return new Promise(resolve => {
-    const bars = cont.children;
-    if (!bars[idxA] || !bars[idxB]) { resolve(); return; }
-    const rectA = bars[idxA].getBoundingClientRect();
-    const rectB = bars[idxB].getBoundingClientRect();
-    const deltaX = rectB.left - rectA.left;
-    const easing = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
-    bars[idxA].style.transition = 'transform ' + duration + 'ms ' + easing;
-    bars[idxB].style.transition = 'transform ' + duration + 'ms ' + easing;
-    bars[idxA].style.transform = 'translate(' + deltaX + 'px,' + Math.min(rectB.top - rectA.top, 10) + 'px)';
-    bars[idxB].style.transform = 'translate(' + (-deltaX) + 'px,' + Math.min(rectA.top - rectB.top, 10) + 'px)';
-    setTimeout(() => {
-      bars[idxA].style.transition = 'none';
-      bars[idxB].style.transition = 'none';
-      bars[idxA].style.transform = '';
-      bars[idxB].style.transform = '';
-      resolve();
-    }, duration + 20);
-  });
-}
-
-// ─── Animation de copie/deplacement unidirectionnel ─────────────
-// N'effectue pas de deplacement physique des barres (CSS Grid fixe).
-// Montre la source qui se met a briller et la destination qui pulse.
-function triggerAnimation(bar, className) {
   if (!bar) return;
   bar.classList.remove(className);
   void bar.offsetWidth;
