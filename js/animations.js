@@ -277,7 +277,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
     if (!sig.aborted) {
       render(dom.cont, workArray, classes);
       // Surlignage des sous-tableaux pour le tri fusion
-      if (step.lo != null && step.hi != null) {
+      if (step.lo != null && step.hi != null && step.type !== 'div') {
         applyMergeRange(dom.cont, step.lo, step.mid, step.hi);
         showMergeLevel(dom, step.hi, step.lo);
       }
