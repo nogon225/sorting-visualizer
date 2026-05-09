@@ -78,6 +78,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
     const step = steps[stepIndex];
     const pauseP = getPausePromise ? getPausePromise() : null;
     if (pauseP) await pauseP;
+    if (sig.aborted) return { cmp: comparisons, swp: swaps, elapsed: 0, aborted: true };
     for (const key of Object.keys(classes)) delete classes[key];
     const delay = getDelayMs();
 
