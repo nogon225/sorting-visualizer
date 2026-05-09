@@ -13,8 +13,9 @@ function generateData(count) {
 }
 
 function resetAllStats() {
+  state.renderGeneration++;
   ALGOS.forEach(algo => {
-    render(lanes[algo.id].cont, state.data);
+    render(lanes[algo.id].cont, state.data, { _force: true });
     lanes[algo.id].cmpEl.textContent = '0';
     lanes[algo.id].swpEl.textContent = '0';
     lanes[algo.id].timeEl.textContent = '0';

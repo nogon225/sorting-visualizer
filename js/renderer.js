@@ -2,6 +2,8 @@
  * renderer.js — Rendu des barres en CSS Grid (DOM persistant).
  */
 
+import { state } from './state.js';
+
 const CSS_CLS = { 0: 'b0', 1: 'b1', 2: 'b2', 3: 'b3' };
 
 /**
@@ -13,6 +15,9 @@ const CSS_CLS = { 0: 'b0', 1: 'b1', 2: 'b2', 3: 'b3' };
  * @param {object}      classes - mapping index → clé CSS (0-3)
  */
 export function render(cont, values, classes = {}) {
+  // Ignore si une generation plus recente a deja rendu
+  if (!classes._force && state.renderGeneration > (cont._renderGen || 0)) return;
+  cont._renderGen = state.renderGeneration;
   const count = values.length;
   const max = Math.max(...values, 1);
 

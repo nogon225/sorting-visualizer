@@ -12,4 +12,5 @@ export const state = {
   currentDelayMs: 20,
   pausePromise: null,
   pauseResolve: null,
+  renderGeneration: 0,
 };
