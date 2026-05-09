@@ -196,8 +196,6 @@ Each algorithm produces an array of steps:
 { type: 'cmp', i: 3, j: 4 }   // Compare a[3] and a[4]
 { type: 'swp', i: 3, j: 4 }   // Swap a[3] ↔ a[4]
 { type: 'swp', i: 5, v: 42 }  // Write: a[5] = 42 (Merge Sort)
-{ type: 'mov', i: 2, j: 3 }   // Shift: value at 2 copied to 3
-{ type: 'mov', i: 1, k: 7 }   // Insert: value 7 placed at 1
 { type: 'srt', i: 2 }         // a[2] is definitively sorted
 ```
 

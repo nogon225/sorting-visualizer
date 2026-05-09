@@ -32,29 +32,6 @@ function animateSwap(cont, idxA, idxB, duration) {
 // ─── Animation de copie/deplacement unidirectionnel ─────────────
 // N'effectue pas de deplacement physique des barres (CSS Grid fixe).
 // Montre la source qui se met a briller et la destination qui pulse.
-function animateMove(cont, fromIdx, toIdx, duration) {
-  return new Promise(resolve => {
-    const bars = cont.children;
-    if (!bars[fromIdx] || !bars[toIdx]) { resolve(); return; }
-
-    // Source : halo lumineux pour indiquer d'ou vient la valeur
-    bars[fromIdx].style.transition = 'box-shadow ' + duration + 'ms ease-out';
-    bars[fromIdx].style.boxShadow = '0 0 10px 3px rgba(250, 204, 21, 0.5)';
-
-    // Destination : se contracte pour montrer qu'elle va etre ecrasee
-    bars[toIdx].style.transition = 'transform ' + (duration * 0.3) + 'ms ease-out';
-    bars[toIdx].style.transform = 'scaleY(0.7)';
-
-    setTimeout(() => {
-      bars[fromIdx].style.transition = 'none';
-      bars[fromIdx].style.boxShadow = 'none';
-      bars[toIdx].style.transition = 'none';
-      bars[toIdx].style.transform = '';
-      resolve();
-    }, duration + 20);
-  });
-}
-
 function triggerAnimation(bar, className) {
   if (!bar) return;
   bar.classList.remove(className);
@@ -129,7 +106,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
           dom.typeEl.textContent = __('typeLabels.move');
           dom.timeEl.textContent = Math.round(performance.now() - t0);
           const dur = Math.min(600, Math.max(80, delay * 1.5));
-          await animateMove(dom.cont, step.from, step.i, dur);
+          await animateSwap(dom.cont, step.from, step.i, dur);
         } else {
           classes[step.i] = 2;
           render(dom.cont, workArray, classes);
@@ -152,35 +129,6 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
       dom.swpEl.textContent = swaps;
       classes[step.i] = 2;
       if (step.j != null) classes[step.j] = 2;
-    } else if (step.type === 'mov') {
-      // Deplacement unidirectionnel : valeur a l'index i va a l'index j
-      if (step.k !== undefined) {
-        // Placement de la cle : valeur k arrive a la position i
-        workArray[step.i] = step.k;
-        classes[step.i] = 2;
-      } else {
-        // Decalage : valeur a l'index i copiee a l'index j
-        workArray[step.j] = workArray[step.i];
-        classes[step.i] = 1;
-        classes[step.j] = 2;
-      }
-      if (delay > 10) {
-        render(dom.cont, workArray, classes);
-        const dur = Math.min(400, Math.max(60, delay));
-        if (step.k !== undefined) {
-          // Animation de la cle : pulse a la position d'arrivee
-          const bar = dom.cont.children[step.i];
-          if (bar) {
-            bar.style.transition = 'transform ' + dur + 'ms ease-out';
-            bar.style.transform = 'scaleY(1.15)';
-            await new Promise(r => setTimeout(r, dur));
-            bar.style.transform = ''; bar.style.transition = 'none';
-          }
-        } else {
-          // Decalage : barre source glisse a la position destination
-          await animateMove(dom.cont, step.i, step.j, dur);
-        }
-      }
     } else if (step.type === 'srt') {
       classes[step.i] = 3;
     }

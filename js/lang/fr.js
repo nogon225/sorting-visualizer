@@ -100,18 +100,6 @@ export const fr = {
         '<span class="sc-swap">Écrit</span> <span class="sc-val">' + p.v + '</span> dans <b>a[' + p.i + ']</b>'
         + ' <span class="sc-step">' + p.step + '</span>'
     },
-    shift: {
-      label: "Décalage",
-      html: (p) =>
-        '<span class="sc-cmp">Décale</span> <b>a[' + p.i + ']</b> → <b>a[' + p.j + ']</b>'
-        + ' <span class="sc-step">' + p.step + '</span>'
-    },
-    insert: {
-      label: "Insertion",
-      html: (p) =>
-        '<span class="sc-swap">Insère</span> <span class="sc-val">' + p.v + '</span> dans <b>a[' + p.i + ']</b>'
-        + ' <span class="sc-step">' + p.step + '</span>'
-    },
     srt: {
       label: "Placement",
       html: (p) =>

@@ -48,18 +48,10 @@ export function insertionSort(a) {
     let k = a[i], j = i-1;
     while (j >= 0) {
       s.push({ type:'cmp', i:j, j:j+1 });
-      if (a[j] > k) {
-        const srcIdx = j;
-        a[j+1] = a[j];
-        s.push({ type:'mov', i:srcIdx, j:j+1 });
-        j--;
-      } else break;
+      if (a[j] > k) { a[j+1] = a[j]; s.push({ type:'swp', i:j, j:j+1 }); j--; }
+      else break;
     }
-    const dst = j+1;
-    a[dst] = k;
-    if (dst !== i) {
-      s.push({ type:'mov', i:dst, j:i, k:k });
-    }
+    a[j+1] = k;
     s.push({ type:'srt', i });
   }
   return s;
