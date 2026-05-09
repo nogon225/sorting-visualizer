@@ -1,7 +1,7 @@
 /* ─── Responsive (max 768px) ────────────────────────────────────── */
 @media (max-width:768px) {
   h1 { font-size:1rem; padding:10px 8px 4px; }
-  .controls { gap:4px; padding:6px 8px; flex-wrap:wrap; }
+  .controls { gap:4px; padding:6px 8px; flex-wrap:wrap; justify-content:center; }
   .controls label { font-size:.6rem; }
   .controls input[type=range] { width:56px; }
   .controls .val { min-width:32px; font-size:.6rem; }
@@ -30,21 +30,36 @@
   .algo-modal { max-width:95vw; }
 }
 
-/* ─── Responsive (max 480px) ─── iPhone SE / petits écrans ─── */
-@media (max-width:480px) {
-  h1 { font-size:.85rem; padding:8px 6px 2px; }
-  .controls { gap:3px; padding:4px 6px; }
+/* ─── Responsive (max 640px) ─── mobile ─── */
+@media (max-width:640px) {
+  h1 { font-size:.95rem; padding:8px 6px 2px; }
+
+  /* Controles: les sliders prennent la largeur dispo, boutons en dessous */
+  .controls {
+    gap:3px; padding:5px 6px;
+    justify-content:center;
+  }
   .controls label { font-size:.55rem; letter-spacing:0; text-transform:none; }
-  .controls input[type=range] { width:40px; }
-  .controls .val { min-width:28px; font-size:.55rem; }
-  .controls #speedV { width:50px; }
-  .controls button { padding:4px 7px; font-size:.6rem; border-radius:5px; gap:3px; }
-  .btn-go { padding:4px 10px; }
-  .btn-rnd, .btn-rs, .btn-pause { padding:4px 8px; }
-  .btn-help { padding:2px 5px; font-size:.8rem; }
-  .legend { gap:2px; font-size:.45rem; padding:1px 4px; }
+  .controls input[type=range] {
+    flex:1; min-width:40px; max-width:80px; height:3px;
+  }
+  .controls input[type=range]::-webkit-slider-thumb { width:11px; height:11px; }
+  .controls .val { min-width:20px; font-size:.5rem; }
+  .controls #speedV { min-width:36px; font-size:.45rem; }
+
+  /* Boutons plus petits, flex auto pour qu ils tiennent tous sur une ligne */
+  .controls button {
+    padding:3px 5px; font-size:.5rem; border-radius:4px; gap:2px;
+    line-height:1.3; flex:0 1 auto;
+  }
+  .btn-go { padding:3px 8px; font-size:.55rem; }
+  .btn-rnd, .btn-rs, .btn-pause { padding:3px 5px; }
+  .btn-help { padding:1px 5px; font-size:.65rem; }
+
+  .legend { gap:2px; font-size:.45rem; padding:1px 4px; flex-wrap:wrap; }
   .legend span { padding:1px 3px; border-radius:3px; }
   .track { padding:0 3px; gap:1px; }
+  .hdr { padding:0 6px; }
   .hdr .nm { font-size:.55rem; }
   .hdr .cx { font-size:.42rem; padding:0 3px; }
   .hdr .st { font-size:.42rem; }
@@ -58,4 +73,15 @@
   .hist-summary { padding:4px 8px; font-size:.55rem; gap:8px; }
   .hist-body { padding:4px 8px 6px; font-size:.55rem; }
   .hl-entry { padding:1px 0; }
+}
+
+/* ─── Tres petits ecrans (max 380px) ─── */
+@media (max-width:380px) {
+  .controls { padding:3px 4px; gap:2px; }
+  .controls label { font-size:.45rem; }
+  .controls input[type=range] { min-width:30px; max-width:60px; }
+  .controls .val { min-width:16px; font-size:.45rem; }
+  .controls #speedV { min-width:30px; }
+  .controls button { padding:2px 4px; font-size:.45rem; }
+  .btn-go { padding:2px 5px; }
 }
