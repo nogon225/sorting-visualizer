@@ -22,7 +22,7 @@
   .lane { padding:1px 0; }
   .bars .b::before { display:none; }
   .bv { font-size:.45rem; }
-  .bi { font-size:.3rem; }
+  .bi-wrap { display:none; }
   .bars { column-gap:0.5px; }
   .status { padding:3px 8px 6px; font-size:.6rem; }
   .modal { max-width:95vw; }
@@ -142,19 +142,9 @@
   .step-desc { display:none; }
   .lane { padding:2px 0; }
   .bv {
-    font-size:.5rem;
-    bottom:auto; top:50%;
-    transform:translate(-50%,-50%);
-    color:#fff;
-    background:rgba(0,0,0,0.55);
-    padding:1px 3px;
-    border-radius:2px;
-    text-shadow:none;
-    opacity:0.95;
+    display:none;
   }
-  body:has(#speed[value="1"]) .bv,
-  body:has(#speed[value="2"]) .bv { opacity:1; color:#fff; }
-  .bi { font-size:.28rem; }
+  .bi-wrap { display:none; }
   .bars { column-gap:0.5px; }
   .bars .b::before { display:none; }
   .lane-focused .bars { max-height:35vh; min-height:100px; }
