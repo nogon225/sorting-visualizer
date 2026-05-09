@@ -1,13 +1,61 @@
-/* ─── Responsive (max 640px) ────────────────────────────────────── */
-@media (max-width:640px) {
-  h1 { font-size:1.05rem; padding-top:12px; }
-  .lane-focused .bars { flex:1; max-height:40vh; min-height:100px; }
-  .controls { gap:4px; padding:6px 8px; }
-  .controls input[type=range] { width:48px; }
-  .controls .val { min-width:36px; font-size:.65rem; }
-  .controls #speedV { width:64px; }
-  .legend { gap:4px; font-size:.52rem; padding:2px 8px; }
+/* ─── Responsive (max 768px) ────────────────────────────────────── */
+@media (max-width:768px) {
+  h1 { font-size:1rem; padding:10px 8px 4px; }
+  .controls { gap:4px; padding:6px 8px; flex-wrap:wrap; }
+  .controls label { font-size:.6rem; }
+  .controls input[type=range] { width:56px; }
+  .controls .val { min-width:32px; font-size:.6rem; }
+  .controls #speedV { width:60px; }
+  .controls button { padding:5px 10px; font-size:.7rem; }
+  .btn-go { padding:5px 14px; }
+  .legend { gap:3px; font-size:.5rem; padding:2px 6px; }
+  .legend span { padding:1px 5px; }
+  .track { padding:0 6px; gap:2px; }
+  .hdr { padding:0 8px; }
+  .hdr .nm { font-size:.62rem; }
+  .hdr .st { font-size:.48rem; gap:2px; }
+  .hdr .cx { font-size:.48rem; padding:0 4px; }
+  .btn-focus, .btn-algo-info { padding:2px 5px; min-width:20px; min-height:20px; font-size:.65rem; }
+  .btn-hist { padding:2px 4px; font-size:.6rem; }
+  .step-info { padding:0 8px; height:12px; font-size:.5rem; }
   .step-desc { display:none; }
-  .hdr .st { font-size:.5rem; gap:3px; }
+  .lane { padding:1px 0; }
   .bars .b::before { display:none; }
+  .bv { font-size:.4rem; bottom:-9px; }
+  .bi { font-size:.3rem; }
+  .bars { column-gap:0.5px; }
+  .status { padding:3px 8px 6px; font-size:.6rem; }
+  .modal { max-width:95vw; }
+  .modal-body { padding:10px 12px 14px; }
+  .algo-modal { max-width:95vw; }
+}
+
+/* ─── Responsive (max 480px) ─── iPhone SE / petits écrans ─── */
+@media (max-width:480px) {
+  h1 { font-size:.85rem; padding:8px 6px 2px; }
+  .controls { gap:3px; padding:4px 6px; }
+  .controls label { font-size:.55rem; letter-spacing:0; text-transform:none; }
+  .controls input[type=range] { width:40px; }
+  .controls .val { min-width:28px; font-size:.55rem; }
+  .controls #speedV { width:50px; }
+  .controls button { padding:4px 7px; font-size:.6rem; border-radius:5px; gap:3px; }
+  .btn-go { padding:4px 10px; }
+  .btn-rnd, .btn-rs, .btn-pause { padding:4px 8px; }
+  .btn-help { padding:2px 5px; font-size:.8rem; }
+  .legend { gap:2px; font-size:.45rem; padding:1px 4px; }
+  .legend span { padding:1px 3px; border-radius:3px; }
+  .track { padding:0 3px; gap:1px; }
+  .hdr .nm { font-size:.55rem; }
+  .hdr .cx { font-size:.42rem; padding:0 3px; }
+  .hdr .st { font-size:.42rem; }
+  .hdr .st .v { font-size:.42rem; }
+  .hdr .st .done { font-size:.5rem; }
+  .step-info { padding:0 6px; height:10px; font-size:.45rem; }
+  .bv { font-size:.35rem; bottom:-8px; }
+  .bi { font-size:.25rem; }
+  .lane-focused .bars { max-height:35vh; min-height:80px; }
+  .status { padding:2px 6px 4px; font-size:.55rem; }
+  .hist-summary { padding:4px 8px; font-size:.55rem; gap:8px; }
+  .hist-body { padding:4px 8px 6px; font-size:.55rem; }
+  .hl-entry { padding:1px 0; }
 }
