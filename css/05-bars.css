@@ -1,0 +1,51 @@
+/* ─── Barres (CSS Grid) ───────────────────────────────────────── */
+.bars {
+  display:grid; align-items:end;
+  flex:1; min-width:0;
+  column-gap:1px;
+}
+.lane .bars {
+  flex:1;
+  min-height:10px;
+}
+.bars .b {
+  border-radius:2px 2px 0 0;
+  position:relative;
+  display:flex; align-items:center; justify-content:center;
+  will-change:transform;
+}
+
+/* Dégradés */
+.b0 { background:linear-gradient(180deg,#3b82f6,#2563eb); }
+.b1 { background:linear-gradient(180deg,#eab308,#ca8a04); }
+.b2 { background:linear-gradient(180deg,#ef4444,#dc2626); }
+.b3 { background:linear-gradient(180deg,#22c55e,#16a34a); }
+
+/* Brillance au sommet */
+.bars .b::before {
+  content:''; position:absolute; top:0; left:20%; right:20%;
+  height:30%; border-radius:2px 2px 0 0;
+  background:linear-gradient(180deg,#ffffff18,transparent);
+  pointer-events:none;
+}
+
+/* Valeurs numériques */
+.bv {
+  position:absolute; bottom:-11px; left:50%;
+  transform:translateX(-50%);
+  font-size:.48rem; color:#e2e8f0;
+  white-space:nowrap; pointer-events:none;
+  opacity:0.9; font-weight:600;
+  transition:opacity .15s;
+  line-height:1;
+}
+body:has(#speed[value="1"]) .bv,
+body:has(#speed[value="2"]) .bv { opacity:1; color:#f8fafc; }
+
+/* Indices */
+.bi-wrap {
+  display:grid; width:100%;
+  margin-top:0; padding:0;
+  column-gap:1px;
+}
+.bi { font-size:.35rem; color:#27272a; }

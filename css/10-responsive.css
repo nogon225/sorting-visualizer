@@ -1,0 +1,13 @@
+/* ─── Responsive (max 640px) ────────────────────────────────────── */
+@media (max-width:640px) {
+  h1 { font-size:1.05rem; padding-top:12px; }
+  .lane-focused .bars { flex:1; max-height:40vh; min-height:100px; }
+  .controls { gap:4px; padding:6px 8px; }
+  .controls input[type=range] { width:48px; }
+  .controls .val { min-width:36px; font-size:.65rem; }
+  .controls #speedV { width:64px; }
+  .legend { gap:4px; font-size:.52rem; padding:2px 8px; }
+  .step-desc { display:none; }
+  .hdr .st { font-size:.5rem; gap:3px; }
+  .bars .b::before { display:none; }
+}

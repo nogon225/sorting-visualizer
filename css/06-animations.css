@@ -1,0 +1,13 @@
+/* ─── Micro-animations ─────────────────────────────────────────── */
+.b-cmp { animation:cmpPulse .35s ease-in-out; }
+@keyframes cmpPulse {
+  0%,100% { transform:scaleY(1); }
+  50% { transform:scaleY(1.06); }
+}
+
+.b-srt { animation:srtPop .3s ease-out; }
+@keyframes srtPop {
+  0%   { filter:brightness(1); }
+  25%  { filter:brightness(1.5); transform:scaleY(1.12); }
+  100% { filter:brightness(1); transform:scaleY(1); }
+}

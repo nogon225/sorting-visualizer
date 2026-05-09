@@ -1,0 +1,8 @@
+/* ─── Focus mode ──────────────────────────────────────────────── */
+.lane-focused .bars { flex:1; max-height:60vh; min-height:150px; }
+.lane-focused .bv { opacity:1 !important; font-size:.7rem; bottom:-16px; color:#cbd5e1; }
+.lane-focused .bi { font-size:.6rem; color:#3f3f46; }
+.lane-focused .step-info { font-size:.72rem; }
+.lane-focused .step-desc { color:#71717a; }
+.lane-focused .hdr .nm { font-size:.88rem; }
+.lane-focused .hdr .st { font-size:.65rem; }

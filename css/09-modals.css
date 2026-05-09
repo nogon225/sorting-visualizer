@@ -1,0 +1,63 @@
+/* ─── Modale d'aide globale ────────────────────────────────────── */
+.modal-overlay {
+  position:fixed; inset:0; background:#000000cc;
+  display:flex; align-items:center; justify-content:center;
+  z-index:1000; padding:16px;
+}
+.modal {
+  background:#0f141e; border:1px solid #1e293b;
+  border-radius:14px; max-width:580px; width:100%; max-height:85vh;
+  overflow-y:auto;
+  box-shadow:0 25px 80px #000000, 0 0 0 1px #1e293b;
+}
+.modal-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 18px; border-bottom:1px solid #1e293b;
+  font-size:.9rem; font-weight:600; color:#e2e8f0;
+}
+.modal-close {
+  background:transparent; border:none; color:#52525b;
+  font-size:1.1rem; cursor:pointer;
+  padding:4px 8px; border-radius:6px; line-height:1;
+}
+.modal-close:hover { background:#1e293b; color:#e2e8f0; }
+.modal-body { padding:14px 18px 20px; }
+.modal-body section { margin-bottom:16px; }
+.modal-body h3 { font-size:.78rem; color:#60a5fa; margin-bottom:6px; font-weight:600; }
+.modal-body table { width:100%; border-collapse:collapse; }
+.modal-body td { padding:3px 6px; font-size:.7rem; vertical-align:top; border-bottom:1px solid #090d14; }
+.modal-body td:first-child { white-space:nowrap; width:110px; color:#52525b; }
+.modal-body .ex { background:#090d14; padding:5px 8px; border-radius:6px; font-size:.65rem; margin:4px 0 0; color:#52525b; }
+.modal-body .ex code { color:#fbbf24; }
+.modal-body p { font-size:.7rem; color:#52525b; line-height:1.6; }
+
+/* ─── Modale d'info algorithme ─────────────────────────────────── */
+.algo-modal-overlay {
+  position:fixed; inset:0; background:#000000cc;
+  display:flex; align-items:center; justify-content:center;
+  z-index:1001; padding:16px;
+}
+.algo-modal {
+  background:#0f141e; border:1px solid #1e293b;
+  border-radius:14px; max-width:520px; width:100%; max-height:80vh;
+  overflow-y:auto;
+  box-shadow:0 25px 80px #000000, 0 0 0 1px #1e293b;
+}
+.algo-modal-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 18px; border-bottom:1px solid #1e293b;
+  font-size:.9rem; font-weight:600; color:#e2e8f0;
+}
+.algo-modal-close {
+  background:transparent; border:none; color:#52525b;
+  font-size:1.1rem; cursor:pointer;
+  padding:4px 8px; border-radius:6px; line-height:1;
+}
+.algo-modal-close:hover { background:#1e293b; color:#e2e8f0; }
+.algo-modal-body { padding:14px 18px 20px; }
+.algo-modal-body h3 { font-size:.78rem; color:#60a5fa; margin:14px 0 6px; font-weight:600; }
+.algo-modal-body h3:first-of-type { margin-top:0; }
+.algo-natural { font-size:.75rem; color:#a1a1aa; line-height:1.75; }
+.algo-table { width:100%; border-collapse:collapse; font-size:.72rem; }
+.algo-table td { padding:4px 6px; vertical-align:top; border-bottom:1px solid #090d14; }
+.algo-table td:first-child { white-space:nowrap; width:100px; color:#52525b; font-weight:600; }

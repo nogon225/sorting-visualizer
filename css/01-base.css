@@ -1,0 +1,22 @@
+/* ─── Reset & Base ─────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { font-size:16px; height:100%; overflow:hidden; }
+
+body {
+  font-family: 'Inter','SF Pro','Segoe UI',system-ui,-apple-system,sans-serif;
+  background: #090d14; color:#e2e8f0;
+  padding:0; margin:0; height:100%; overflow:hidden;
+  display:flex; flex-direction:column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Header ──────────────────────────────────────────────────── */
+h1 {
+  text-align:center; font-size:1.3rem; font-weight:650;
+  letter-spacing:-0.03em;
+  background:linear-gradient(135deg,#93c5fd,#a78bfa,#38bdf8);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+  padding:14px 0 6px; margin-bottom:4px; line-height:1.3;
+}

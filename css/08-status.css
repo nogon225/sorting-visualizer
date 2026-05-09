@@ -1,0 +1,6 @@
+/* ─── Status ───────────────────────────────────────────────────── */
+.status {
+  padding:5px 12px 10px;
+  text-align:center; font-size:.7rem; color:#52525b;
+}
+.status .win { color:#22c55e; font-weight:600; }
