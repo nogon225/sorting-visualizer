@@ -29,6 +29,60 @@ function animateSwap(cont, idxA, idxB, duration) {
   });
 }
 
+// ─── Animation de copie (sans deplacement) ─────────────────────
+// Utilisee pour Merge Sort : la barre source brille, la destination pulse et prend la valeur
+function animateCopy(cont, fromIdx, toIdx, duration) {
+  return new Promise(resolve => {
+    const bars = cont.children;
+    if (!bars[fromIdx] || !bars[toIdx]) { resolve(); return; }
+
+    // Source : halo pour indiquer d'ou vient la valeur
+    bars[fromIdx].style.transition = 'box-shadow ' + duration + 'ms ease-out';
+    bars[fromIdx].style.boxShadow = '0 0 12px 4px rgba(96, 165, 250, 0.6)';
+
+    // Destination : se contracte puis se detend
+    bars[toIdx].style.transition = 'transform ' + (duration * 0.4) + 'ms ease-out';
+    bars[toIdx].style.transform = 'scaleY(0.6)';
+
+    setTimeout(() => {
+      bars[toIdx].style.transition = 'transform ' + (duration * 0.3) + 'ms ease-out';
+      bars[toIdx].style.transform = '';
+      bars[fromIdx].style.transition = 'box-shadow ' + (duration * 0.3) + 'ms ease-out';
+      bars[fromIdx].style.boxShadow = 'none';
+
+      setTimeout(() => {
+        bars[fromIdx].style.transition = 'none';
+        bars[fromIdx].style.boxShadow = 'none';
+        bars[toIdx].style.transition = 'none';
+        bars[toIdx].style.transform = '';
+        resolve();
+      }, duration * 0.3 + 10);
+    }, duration * 0.4 + 10);
+  });
+}
+
+function triggerAnimation(bar, className) {
+  return new Promise(resolve => {
+    const bars = cont.children;
+    if (!bars[idxA] || !bars[idxB]) { resolve(); return; }
+    const rectA = bars[idxA].getBoundingClientRect();
+    const rectB = bars[idxB].getBoundingClientRect();
+    const deltaX = rectB.left - rectA.left;
+    const easing = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
+    bars[idxA].style.transition = 'transform ' + duration + 'ms ' + easing;
+    bars[idxB].style.transition = 'transform ' + duration + 'ms ' + easing;
+    bars[idxA].style.transform = 'translate(' + deltaX + 'px,' + Math.min(rectB.top - rectA.top, 10) + 'px)';
+    bars[idxB].style.transform = 'translate(' + (-deltaX) + 'px,' + Math.min(rectA.top - rectB.top, 10) + 'px)';
+    setTimeout(() => {
+      bars[idxA].style.transition = 'none';
+      bars[idxB].style.transition = 'none';
+      bars[idxA].style.transform = '';
+      bars[idxB].style.transform = '';
+      resolve();
+    }, duration + 20);
+  });
+}
+
 // ─── Animation de copie/deplacement unidirectionnel ─────────────
 // N'effectue pas de deplacement physique des barres (CSS Grid fixe).
 // Montre la source qui se met a briller et la destination qui pulse.
@@ -114,7 +168,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
           dom.typeEl.textContent = __('typeLabels.move');
           dom.timeEl.textContent = Math.round(performance.now() - t0);
           const dur = Math.min(600, Math.max(80, delay * 1.5));
-          await animateSwap(dom.cont, step.from, step.i, dur);
+          await animateCopy(dom.cont, step.from, step.i, dur);
           workArray[step.i] = step.v;
           render(dom.cont, workArray, classes);
         } else {
