@@ -92,3 +92,122 @@ Ce projet a ete entierement code par **Claw** (agent OpenClaw) en utilisant **De
 ## Prérequis
 
 Aucun. Un navigateur moderne suffit (ES modules + CSS Grid + `:has()` selector).
+
+---
+
+# Sorting Algorithms — Interactive Visualization
+
+Watch 6 sorting algorithms race side by side on the same data.
+Understand how they work through animations, step descriptions, and operation logs.
+
+## Launch
+
+```bash
+cd sorting-visualizer
+python3 -m http.server 5174 --bind 0.0.0.0
+```
+
+Open **http://localhost:5174/** in a browser. Switch language with the 🇬🇧 EN button.
+
+> No build step, no dependencies. Plain HTML + CSS + JS modules.
+
+## Controls
+
+| Button | Action |
+|---|---|
+| **🎲 Shuffle** | Generates a new random dataset |
+| **▶ Sort** | Runs all 6 algorithms simultaneously |
+| **⏸ Pause** | Pauses / resumes the animation |
+| **↺ Reset** | Resets everything (cancels if running) |
+| **🔍 Focus** | Isolates one algorithm to study it |
+| **📋 Logs** | Opens the detailed step-by-step history |
+| **ℹ️ Info** | Opens algorithm documentation |
+| **Elements slider** | Changes the number of bars (10–200) |
+| **Speed slider** | 🐢 Very slow → ⚡ Lightning (adjustable in real time) |
+
+## Algorithms
+
+| Algorithm | Complexity |
+|---|---|
+| **Bubble Sort** | O(n²) |
+| **Selection Sort** | O(n²) |
+| **Insertion Sort** | O(n²) |
+| **Merge Sort** | O(n log n) |
+| **Quick Sort** | O(n log n) |
+| **Heap Sort** | O(n log n) |
+
+All algorithms sort the exact same randomly generated data.
+
+## Features
+
+- **CSS Grid bars**: each bar occupies `1/n` of the total width
+- **Animated swap**: bars visually translate during swaps
+- **Lane focus**: isolates one algorithm with enlarged bars
+- **Pause / Resume**: analyze a specific step
+- **Dynamic speed**: change speed mid-execution
+- **Operation history**: 📋 button opens detailed per-lane logs
+- **Real-time stats**: comparisons, swaps, elapsed time per algorithm
+- **Race protection**: stale results from aborted runs are ignored
+- **Persistent DOM**: bars are created once and updated by class/height (no recreation per frame)
+
+## Architecture
+
+```
+sorting-visualizer/
+├── index.html          # HTML shell + help modal
+├── css/
+│   ├── style.css       # Main stylesheet (imports all modules)
+│   ├── 01-base.css     # Reset, variables, base layout
+│   ├── 02-controls.css # Controls bar, sliders, buttons
+│   ├── 03-legend.css   # Color legend
+│   ├── 04-lanes.css    # Algorithm lanes
+│   ├── 05-bars.css     # CSS Grid bars with gradients
+│   ├── 06-animations.css  # Animation keyframes
+│   ├── 07-focus.css    # Focus mode styles
+│   ├── 08-status.css   # Status bar
+│   ├── 09-modals.css   # Help and algo info modals
+│   └── 10-responsive.css  # Mobile/tablet breakpoints
+├── js/
+│   ├── main.js         # Entry point, data init
+│   ├── i18n.js         # Translation system (FR/EN)
+│   ├── lang/fr.js      # French translations
+│   ├── lang/en.js      # English translations
+│   ├── sorters.js      # Pure JS sorting algorithms
+│   ├── animations.js   # Step-by-step animation engine
+│   ├── stepInfo.js     # Human-readable step descriptions
+│   ├── race.js         # Parallel algorithm execution
+│   ├── lanes.js        # Lane construction + focus
+│   ├── renderer.js     # Bar rendering (persistent DOM)
+│   ├── controls.js     # Controls event binding
+│   ├── reset.js        # Reset + shuffle logic
+│   ├── pause.js        # Pause/resume
+│   ├── dom.js          # Lazy DOM references
+│   ├── state.js        # Shared mutable state
+│   ├── algoInfo.js     # Algorithm documentation
+│   └── infoModal.js    # Help modal rendering
+└── README.md
+```
+
+## Step types
+
+Each algorithm produces an array of steps:
+
+```js
+{ type: 'cmp', i: 3, j: 4 }   // Compare a[3] and a[4]
+{ type: 'swp', i: 3, j: 4 }   // Swap a[3] ↔ a[4]
+{ type: 'swp', i: 5, v: 42 }  // Write: a[5] = 42 (Merge Sort)
+{ type: 'mov', i: 2, j: 3 }   // Shift: value at 2 copied to 3
+{ type: 'mov', i: 1, k: 7 }   // Insert: value 7 placed at 1
+{ type: 'srt', i: 2 }         // a[2] is definitively sorted
+```
+
+## Built with
+
+This project was entirely coded by **Claw** (OpenClaw agent) using **DeepSeek** as its reasoning model.
+
+- [OpenClaw](https://github.com/openclaw/openclaw) — open-source agent framework
+- [DeepSeek](https://deepseek.com) — language model
+
+## Requirements
+
+None. A modern browser is enough (ES modules + CSS Grid + `:has()` selector).
