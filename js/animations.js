@@ -29,6 +29,34 @@ function animateSwap(cont, idxA, idxB, duration) {
   });
 }
 
+// ─── Animation de deplacement unidirectionnel ───────────────────
+function animateMove(cont, fromIdx, toIdx, duration) {
+  return new Promise(resolve => {
+    const bars = cont.children;
+    if (!bars[fromIdx] || !bars[toIdx]) { resolve(); return; }
+    const rectFrom = bars[fromIdx].getBoundingClientRect();
+    const rectTo = bars[toIdx].getBoundingClientRect();
+    const deltaX = rectTo.left - rectFrom.left;
+    const deltaY = Math.min(rectTo.top - rectFrom.top, 10);
+    const easing = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
+
+    // La barre source glisse vers la destination
+    bars[fromIdx].style.transition = 'transform ' + duration + 'ms ' + easing;
+    bars[fromIdx].style.transform = 'translate(' + deltaX + 'px,' + deltaY + 'px)';
+    // La barre destination pulse pour indiquer qu'elle va etre remplacee
+    bars[toIdx].style.transition = 'transform ' + (duration * 0.3) + 'ms ease-out';
+    bars[toIdx].style.transform = 'scaleY(0.85)';
+
+    setTimeout(() => {
+      bars[fromIdx].style.transition = 'none';
+      bars[fromIdx].style.transform = '';
+      bars[toIdx].style.transition = 'none';
+      bars[toIdx].style.transform = '';
+      resolve();
+    }, duration + 20);
+  });
+}
+
 function triggerAnimation(bar, className) {
   if (!bar) return;
   bar.classList.remove(className);
@@ -103,7 +131,7 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
           dom.typeEl.textContent = __('typeLabels.move');
           dom.timeEl.textContent = Math.round(performance.now() - t0);
           const dur = Math.min(600, Math.max(80, delay * 1.5));
-          await animateSwap(dom.cont, step.from, step.i, dur);
+          await animateMove(dom.cont, step.from, step.i, dur);
         } else {
           classes[step.i] = 2;
           render(dom.cont, workArray, classes);
@@ -126,6 +154,35 @@ export async function animate(id, steps, arr, dom, getDelayMs, getPausePromise, 
       dom.swpEl.textContent = swaps;
       classes[step.i] = 2;
       if (step.j != null) classes[step.j] = 2;
+    } else if (step.type === 'mov') {
+      // Deplacement unidirectionnel : valeur a l'index i va a l'index j
+      if (step.k !== undefined) {
+        // Placement de la cle : valeur k arrive a la position i
+        workArray[step.i] = step.k;
+        classes[step.i] = 2;
+      } else {
+        // Decalage : valeur a l'index i copiee a l'index j
+        workArray[step.j] = workArray[step.i];
+        classes[step.i] = 1;
+        classes[step.j] = 2;
+      }
+      if (delay > 10) {
+        render(dom.cont, workArray, classes);
+        const dur = Math.min(400, Math.max(60, delay));
+        if (step.k !== undefined) {
+          // Animation de la cle : pulse a la position d'arrivee
+          const bar = dom.cont.children[step.i];
+          if (bar) {
+            bar.style.transition = 'transform ' + dur + 'ms ease-out';
+            bar.style.transform = 'scaleY(1.15)';
+            await new Promise(r => setTimeout(r, dur));
+            bar.style.transform = ''; bar.style.transition = 'none';
+          }
+        } else {
+          // Decalage : barre source glisse a la position destination
+          await animateMove(dom.cont, step.i, step.j, dur);
+        }
+      }
     } else if (step.type === 'srt') {
       classes[step.i] = 3;
     }

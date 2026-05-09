@@ -44,6 +44,21 @@ export function stepInfo(st, array, total, current) {
         detail: 'a[' + st.i + '] = ' + st.v,
         html: __('steps.write.html', { i: st.i, v: st.v, step: step }),
       };
+    case 'mov':
+      if (st.k !== undefined) {
+        return {
+          emoji: '📥',
+          label: __('steps.insert.label'),
+          detail: 'a[' + st.i + '] = ' + st.k,
+          html: __('steps.insert.html', { i: st.i, v: st.k, step: step }),
+        };
+      }
+      return {
+        emoji: '➡️',
+        label: __('steps.shift.label'),
+        detail: 'a[' + st.i + '] → a[' + st.j + ']',
+        html: __('steps.shift.html', { i: st.i, j: st.j, v: (iVal !== null ? iVal : ''), step: step }),
+      };
     case 'srt':
       return {
         emoji: '✅',
@@ -69,5 +84,6 @@ export function stepEmoji(st) {
   if (st.type === 'cmp') return labels.cmp;
   if (st.type === 'swp') return labels.swp;
   if (st.type === 'srt') return labels.srt;
+  if (st.type === 'mov') return st.k !== undefined ? '📥 Insertion' : '➡️ Décalage';
   return labels.unknown;
 }

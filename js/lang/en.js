@@ -101,6 +101,18 @@ export const en = {
         '<span class="sc-swap">Write</span> <span class="sc-val">' + p.v + '</span> into <b>a[' + p.i + ']</b>'
         + ' <span class="sc-step">' + p.step + '</span>'
     },
+    shift: {
+      label: "Shift",
+      html: (p) =>
+        '<span class="sc-cmp">Shift</span> <b>a[' + p.i + ']</b> → <b>a[' + p.j + ']</b>'
+        + ' <span class="sc-step">' + p.step + '</span>'
+    },
+    insert: {
+      label: "Insert",
+      html: (p) =>
+        '<span class="sc-swap">Insert</span> <span class="sc-val">' + p.v + '</span> into <b>a[' + p.i + ']</b>'
+        + ' <span class="sc-step">' + p.step + '</span>'
+    },
     srt: {
       label: "Placement",
       html: (p) =>
