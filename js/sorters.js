@@ -60,43 +60,51 @@ export function insertionSort(a) {
 export function mergeSort(a) {
   const s = []; const n = a.length;
 
-  function merge(lo, mid, hi) {
+  // Fonction de merge qui pousse ses etapes dans le tableau out
+  function mergeTo(lo, mid, hi, out) {
     const l = a.slice(lo, mid), r = a.slice(mid, hi);
     let i = 0, j = 0, k = lo;
     while (i < l.length && j < r.length) {
-      s.push({ type:'cmp', i:lo+i, j:mid+j, lo, mid, hi });
-      if (l[i] <= r[j]) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L', lo, mid, hi }); i++; }
-      else { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R', lo, mid, hi }); j++; }
+      out.push({ type:'cmp', i:lo+i, j:mid+j });
+      if (l[i] <= r[j]) { a[k] = l[i]; out.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L' }); i++; }
+      else { a[k] = r[j]; out.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R' }); j++; }
       k++;
     }
-    while (i < l.length) { a[k] = l[i]; s.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L', lo, mid, hi }); i++; k++; }
-    while (j < r.length) { a[k] = r[j]; s.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R', lo, mid, hi }); j++; k++; }
+    while (i < l.length) { a[k] = l[i]; out.push({ type:'swp', i:k, v:a[k], from: lo+i, side:'L' }); i++; k++; }
+    while (j < r.length) { a[k] = r[j]; out.push({ type:'swp', i:k, v:a[k], from: mid+j, side:'R' }); j++; k++; }
   }
 
   // Iteratif bottom-up : double la taille a chaque passe
-  // Les deux moities sont fusionnees simultanement dans la meme boucle
   for (let size = 1; size < n; size *= 2) {
     const pass = Math.round(Math.log2(size));
+    const pairs = [];
 
-    // 1. Divisions pour cette passe
+    // Collecter tous les couples de cette passe
     for (let lo = 0; lo < n; lo += 2 * size) {
       const mid = Math.min(lo + size, n);
       const hi = Math.min(lo + 2 * size, n);
       if (hi > mid) {
         s.push({ type:'div', lo, mid, hi, depth: pass });
+        const st = [];
+        mergeTo(lo, mid, hi, st);
+        pairs.push({ lo, mid, hi, steps: st });
       }
     }
 
-    // 2. Fusions pour cette passe (tous les couples en meme temps)
-    for (let lo = 0; lo < n; lo += 2 * size) {
-      const mid = Math.min(lo + size, n);
-      const hi = Math.min(lo + 2 * size, n);
-      if (hi > mid) {
-        merge(lo, mid, hi);
+    // Entrelacer les etapes de tous les couples = animation simultanee
+    if (pairs.length > 0) {
+      const maxLen = Math.max(...pairs.map(p => p.steps.length));
+      for (let stepIdx = 0; stepIdx < maxLen; stepIdx++) {
+        for (const pair of pairs) {
+          if (stepIdx < pair.steps.length) {
+            const st = pair.steps[stepIdx];
+            s.push({ ...st, lo: pair.lo, mid: pair.mid, hi: pair.hi });
+          }
+        }
       }
     }
 
-    // 3. Marqueurs de fin de passe
+    // Marqueurs de fin de passe
     for (let lo = 0; lo < n; lo += 2 * size) {
       const mid = Math.min(lo + size, n);
       const hi = Math.min(lo + 2 * size, n);
